@@ -3,7 +3,19 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 
 // /** @type {import('eslint').Linter.Config} */
 export default withNuxt({
-	ignores: ['node_modules/', 'dist/', '.nuxt/', '.output/', '.husky', '.nuxt'],
+	ignores: [
+		'node_modules/',
+		'dist/',
+		'.nuxt/',
+		'.output/',
+		'.husky',
+		'.nuxt',
+		'package.json',
+		'package-lock.json',
+		'nuxt.config.ts',
+		'tailwind.config.js',
+		'README.md',
+	],
 	rules: {
 		'capitalized-comments': ['off', 'always'],
 		'default-case-last': 'error',
@@ -34,7 +46,7 @@ export default withNuxt({
 		'vue/no-mutating-props': 'error',
 		'vue/valid-template-root': 'error',
 		'vue/no-side-effects-in-computed-properties': 'error',
-		'no-empty-function': 'error',
+		'no-empty-function': 'warn',
 		'no-useless-catch': 'error',
 		'no-useless-return': 'error',
 		'no-useless-escape': 'warn',

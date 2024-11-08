@@ -1,4 +1,7 @@
-<script setup>
+<script setup lang="ts">
+	import MyHeader from '~/components/layout/my-header/index.vue';
+	import Sidebar from '~/components/layout/my-sidebar/index.vue';
+
 	const route = useRoute();
 	const { t, te } = useI18n();
 
@@ -9,9 +12,28 @@
 	});
 
 	// Localization-based title
-	const title = computed(() =>
-		te(route.meta.title) ? t(route.meta.title) : 'Default page title'
-	);
+	const title = computed(() => {
+		const customTitle = route.meta.title as string | undefined;
+		const defaultTitle = 'Arduino Analyzer';
+
+		if (!customTitle) return defaultTitle;
+
+		return te(customTitle) ? t(customTitle) : defaultTitle;
+	});
+
+	useGlobalKeysPress();
+
+	// Sidebar
+	const {
+		val: isMySidebar,
+		activate: openMySidebar,
+		disactivate: closeMySidebar,
+	} = useToggle();
+	useClickawayClient('my-sidebar', closeMySidebar);
+
+	// Providers
+	provide('openMySidebar', openMySidebar);
+	provide('closeMySidebar', closeMySidebar);
 </script>
 
 <template>
@@ -38,8 +60,17 @@
 				</template>
 			</Head>
 
-			<Body>
+			<Body class="h-screen overflow-x-hidden">
+				<MyHeader />
+
 				<slot />
+
+				<!-- Absolutes -->
+				<Sidebar
+					ref="my-sidebar"
+					:is-active="isMySidebar"
+					@close-my-sidebar="closeMySidebar"
+				/>
 			</Body>
 		</Html>
 	</div>
