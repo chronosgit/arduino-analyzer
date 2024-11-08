@@ -6,5 +6,15 @@
 				"start-session": "Connect"
 			}
 		}
+	},
+	"comps": {
+		"layout": {
+			"my-sidebar": {
+				"features": {
+					"color-theme": "Toggle color theme",
+					"localization": "Change language"
+				}
+			}
+		}
 	}
 }
