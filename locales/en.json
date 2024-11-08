@@ -1,6 +1,9 @@
 {
 	"pages": {
 		"/closed": {
+			"meta": {
+				"title": "No connection to Arduino"
+			},
 			"h1": "Is Arduino setup ready?",
 			"btns": {
 				"start-session": "Connect"
