@@ -1,20 +1,48 @@
 <script setup lang="ts">
-	import CloseMySidebarBtn from './_components/CloseMySidebarBtn.vue';
+	import {
+		IconLocalization,
+		IconMoonWithCloud,
+		IconSunWithClouds,
+	} from '~/components/ui/icons';
+	import Feature from './_components/Feature.vue';
+	import Header from './_components/Header.vue';
+
+	const { $isDarkMode, $toggleMode } = useNuxtApp();
 
 	const props = defineProps<{ isActive: boolean }>();
-	const emit = defineEmits<{ (e: 'closeMySidebar'): void }>();
+
+	const switchLocale = useSwitchLocale();
 </script>
 
 <template>
 	<aside
-		class="pt-6 min-w-[30%] fixed left-0 top-0 px-5 transition-transform bottom-0 dark:bg-zinc-950 bg-zinc-300"
+		class="dark:border-r-zinc-700 border-r-[1px] dark:bg-zinc-900 bg-white min-w-[30%] fixed left-0 top-0 p-2 transition-transform bottom-0"
 		:class="{
 			'translate-x-0': props.isActive,
 			'-translate-x-full': !props.isActive,
 		}"
 	>
-		<!-- Snapped to top-right corner -->
-		<CloseMySidebarBtn @click="emit('closeMySidebar')" />
+		<Header class="mb-10" />
+
+		<!-- Features -->
+		<div class="space-y-4">
+			<Feature @click="$toggleMode">
+				<template #icon>
+					<IconMoonWithCloud v-if="$isDarkMode" class="scale-125" />
+					<IconSunWithClouds v-else class="scale-125" />
+				</template>
+
+				{{ $t('comps.layout.my-sidebar.features.color-theme') }}
+			</Feature>
+
+			<Feature @click="switchLocale">
+				<template #icon>
+					<IconLocalization class="scale-150" />
+				</template>
+
+				{{ $t('comps.layout.my-sidebar.features.localization') }}
+			</Feature>
+		</div>
 	</aside>
 </template>
 

@@ -6,5 +6,15 @@
 				"start-session": "Подключиться"
 			}
 		}
+	},
+	"comps": {
+		"layout": {
+			"my-sidebar": {
+				"features": {
+					"color-theme": "Поменять тему",
+					"localization": "Изменить язык"
+				}
+			}
+		}
 	}
 }
