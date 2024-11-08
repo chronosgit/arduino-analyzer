@@ -66,11 +66,7 @@
 				<slot />
 
 				<!-- Absolutes -->
-				<Sidebar
-					ref="my-sidebar"
-					:is-active="isMySidebar"
-					@close-my-sidebar="closeMySidebar"
-				/>
+				<Sidebar ref="my-sidebar" :is-active="isMySidebar" />
 			</Body>
 		</Html>
 	</div>
