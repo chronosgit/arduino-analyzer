@@ -20,5 +20,5 @@ export const useCurSessionStore = defineStore('curSessionStore', () => {
 		navigateTo(localePath('/closed'));
 	};
 
-	return { isSessionRdy, startSession, closeSession };
+	return { arduinoEspIpAddress, isSessionRdy, startSession, closeSession };
 });

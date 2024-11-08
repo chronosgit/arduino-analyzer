@@ -5,8 +5,9 @@
 		IconMoonWithCloud,
 		IconSunWithClouds,
 	} from '~/components/ui/icons';
-	import Feature from './_components/Feature.vue';
 	import Header from './_components/Header.vue';
+	import Feature from './_components/Feature.vue';
+	import IpAddress from './_components/IpAddress.vue';
 	import { useCurSessionStore } from '~/store/useCurSessionStore';
 
 	const { $isDarkMode, $toggleMode } = useNuxtApp();
@@ -56,6 +57,9 @@
 
 			{{ $t('comps.layout.my-sidebar.features.logout') }}
 		</Feature>
+
+		<!-- Fixed at the bottom -->
+		<IpAddress />
 	</aside>
 </template>
 
