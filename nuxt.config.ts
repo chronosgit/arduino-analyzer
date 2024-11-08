@@ -14,7 +14,7 @@ export default defineNuxtConfig({
 		dirs: ['composables', 'composables/**'],
 	},
 
-	plugins: ['~/plugins/01.color-theme.client.js'],
+	plugins: ['~/plugins/01.color-theme.client.ts'],
 
 	runtimeConfig: {},
 
