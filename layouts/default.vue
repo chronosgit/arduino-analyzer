@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import MyHeader from '~/components/layout/my-header/index.vue';
 	import Sidebar from '~/components/layout/my-sidebar/index.vue';
+	import Toast from '~/components/shared/Toast.vue';
 
 	const route = useRoute();
 	const { t, te } = useI18n();
@@ -31,9 +32,14 @@
 	} = useToggle();
 	useClickawayClient('my-sidebar', closeMySidebar);
 
+	// Toasts
+	const { toasts, addToast, removeToast } = useToasts();
+
 	// Providers
 	provide('openMySidebar', openMySidebar);
 	provide('closeMySidebar', closeMySidebar);
+
+	provide('addToast', addToast);
 </script>
 
 <template>
@@ -67,7 +73,41 @@
 
 				<!-- Absolutes -->
 				<Sidebar ref="my-sidebar" :is-active="isMySidebar" />
+
+				<Teleport to="#teleports">
+					<TransitionGroup name="toasts">
+						<Toast
+							v-for="toast in toasts"
+							:key="toast.id || generateRandomString()"
+							:toast="toast"
+							@kill-toast="removeToast(toast.id)"
+						/>
+					</TransitionGroup>
+				</Teleport>
 			</Body>
 		</Html>
 	</div>
 </template>
+
+<style scoped>
+	.toasts-enter-from,
+	.toasts-leave-to {
+		left: 50%;
+		transform: translate(-50%, -1rem);
+		opacity: 0;
+	}
+
+	.toasts-enter-to,
+	.toasts-leave-from {
+		left: 50%;
+		transform: translate(-50%, 0.5rem);
+		opacity: 1;
+	}
+
+	.toasts-enter-active,
+	.toasts-leave-active {
+		transition:
+			transform 0.3s ease,
+			opacity 0.3s ease;
+	}
+</style>
