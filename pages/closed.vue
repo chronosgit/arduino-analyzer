@@ -1,16 +1,28 @@
 <script setup lang="ts">
 	import { useCurSessionStore } from '~/store/useCurSessionStore';
+	import type { FAddToast } from '~/interfaces/features/toasts/FAddToasts';
 
 	const localePath = useLocalePath();
 	const { t } = useI18n();
 
 	useHead({ title: t('pages./closed.meta.title') });
 
+	const addToast = inject<FAddToast>('addToast', () => {});
+
 	const curSessionStore = useCurSessionStore();
 	const input = ref('');
 
 	const connect = () => {
-		if (!verifyIpAddress(input.value)) return;
+		if (!verifyIpAddress(input.value)) {
+			addToast({
+				id: generateRandomString(),
+				type: 'error',
+				message: t('pages./closed.toasts.invalid-ip'),
+				lifespan: 3000,
+			});
+
+			return;
+		}
 
 		curSessionStore.startSession(input.value);
 
@@ -34,7 +46,7 @@
 			<input
 				v-model="input"
 				type="text"
-				class="dark:bg-zinc-700 bg-zinc-100 p-2 rounded-md border-[1px] dark:border-zinc-700 border-zinc-100 outline-none focus:border-indigo-500"
+				class="dark:bg-zinc-700 bg-zinc-100 p-2 dark:text-white rounded-md border-[1px] dark:border-zinc-700 border-zinc-100 outline-none focus:border-indigo-500"
 				placeholder="Arduino ESP IP address"
 				required
 			/>
