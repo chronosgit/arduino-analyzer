@@ -1,13 +1,17 @@
 <script setup lang="ts">
 	import {
+		IconExit,
 		IconLocalization,
 		IconMoonWithCloud,
 		IconSunWithClouds,
 	} from '~/components/ui/icons';
 	import Feature from './_components/Feature.vue';
 	import Header from './_components/Header.vue';
+	import { useCurSessionStore } from '~/store/useCurSessionStore';
 
 	const { $isDarkMode, $toggleMode } = useNuxtApp();
+
+	const curSessionStore = useCurSessionStore();
 
 	const props = defineProps<{ isActive: boolean }>();
 
@@ -25,7 +29,7 @@
 		<Header class="mb-10" />
 
 		<!-- Features -->
-		<div class="space-y-4">
+		<div class="space-y-4 mb-8">
 			<Feature @click="$toggleMode">
 				<template #icon>
 					<IconMoonWithCloud v-if="$isDarkMode" class="scale-125" />
@@ -43,6 +47,15 @@
 				{{ $t('comps.layout.my-sidebar.features.localization') }}
 			</Feature>
 		</div>
+
+		<!-- Logout -->
+		<Feature @click="curSessionStore.closeSession">
+			<template #icon>
+				<IconExit class="scale-150" />
+			</template>
+
+			{{ $t('comps.layout.my-sidebar.features.logout') }}
+		</Feature>
 	</aside>
 </template>
 
