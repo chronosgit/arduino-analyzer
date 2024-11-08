@@ -4,7 +4,11 @@
 
 <template>
 	<div class="flex justify-between items-center gap-1">
-		<p class="uppercase font-bold text-md text-zinc-500">Ardu!no</p>
+		<NuxtImg
+			src="/images/logo-32x32.png"
+			alt="logo"
+			class="max-w-6 hover:grayscale-0 transition-all grayscale"
+		/>
 
 		<CloseMySidebarBtn />
 	</div>
