@@ -26,7 +26,10 @@
 			{{ $t('pages./closed.h1') }}
 		</h1>
 
-		<form class="flex items-center gap-3" @submit.prevent="connect">
+		<form
+			class="flex flex-col xs:flex-row items-center gap-3"
+			@submit.prevent="connect"
+		>
 			<input
 				v-model="input"
 				type="text"
