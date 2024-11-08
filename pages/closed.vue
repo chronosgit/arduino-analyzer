@@ -8,7 +8,7 @@
 	const input = ref('');
 
 	const connect = () => {
-		if (!input.value) return;
+		if (!verifyIpAddress(input.value)) return;
 
 		curSessionStore.startSession(input.value);
 
