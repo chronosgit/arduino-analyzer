@@ -1,4 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+	import { useCurSessionStore } from '~/store/useCurSessionStore';
+
+	const localePath = useLocalePath();
+	const { t } = useI18n();
+
+	useHead({ title: t('pages./closed.meta.title') });
+
+	const curSessionStore = useCurSessionStore();
+	const input = ref('');
+
+	const connect = () => {
+		if (!verifyIpAddress(input.value)) return;
+
+		curSessionStore.startSession(input.value);
+
+		navigateTo(localePath('/'));
+	};
+</script>
 
 <template>
 	<section
@@ -8,11 +26,24 @@
 			{{ $t('pages./closed.h1') }}
 		</h1>
 
-		<button
-			class="transition-colors hover:bg-indigo-600 bg-indigo-500 py-2 px-4 rounded-full text-white font-medium"
-			@click="console.log('init session')"
+		<form
+			class="flex flex-col xs:flex-row items-center gap-3"
+			@submit.prevent="connect"
 		>
-			{{ $t('pages./closed.btns.start-session') }}
-		</button>
+			<!-- eslint-disable-next-line-->
+			<input
+				v-model="input"
+				type="text"
+				class="dark:bg-zinc-700 bg-zinc-100 p-2 rounded-md border-[1px] dark:border-zinc-700 border-zinc-100 outline-none focus:border-indigo-500"
+				placeholder="Arduino ESP IP address"
+				required
+			/>
+
+			<button
+				class="transition-colors hover:bg-indigo-600 bg-indigo-500 py-2 px-4 rounded-full text-white font-medium"
+			>
+				{{ $t('pages./closed.btns.start-session') }}
+			</button>
+		</form>
 	</section>
 </template>

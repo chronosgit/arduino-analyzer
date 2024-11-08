@@ -1,3 +1,3 @@
 <template>
-	<h1>Home page</h1>
+	<div class="h-screen dark:bg-zinc-900">Home</div>
 </template>

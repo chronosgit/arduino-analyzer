@@ -1,6 +1,9 @@
 {
 	"pages": {
 		"/closed": {
+			"meta": {
+				"title": "Связь с Arduino неустановлена"
+			},
 			"h1": "Собрали дизайн на Ардуино?",
 			"btns": {
 				"start-session": "Подключиться"
@@ -12,7 +15,8 @@
 			"my-sidebar": {
 				"features": {
 					"color-theme": "Поменять тему",
-					"localization": "Изменить язык"
+					"localization": "Изменить язык",
+					"logout": "Выйти"
 				}
 			}
 		}
