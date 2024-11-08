@@ -12,7 +12,8 @@
 			"my-sidebar": {
 				"features": {
 					"color-theme": "Toggle color theme",
-					"localization": "Change language"
+					"localization": "Change language",
+					"logout": "Log out"
 				}
 			}
 		}
