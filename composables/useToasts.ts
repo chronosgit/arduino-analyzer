@@ -4,14 +4,10 @@ export default function () {
 	const toasts = ref<IToast[]>([]);
 
 	const addToast = (toast: IToast) => {
-		if (!toast || !toast.id || !toast.message) return;
+		if (!toast || !toast.id || !toast.message || !toast.lifespan) return;
 		if (!['error', 'warning', 'success'].includes(toast.type)) return;
 
 		toasts.value.push(toast);
-
-		setTimeout(() => {
-			removeToast(toast.id);
-		}, toast.lifespan || 3000);
 	};
 
 	const removeToast = (toastId: string | number) => {
