@@ -5,3 +5,7 @@ export { default as IconSunWithClouds } from './SunWithCloud.vue';
 export { default as IconMoonWithCloud } from './MoonWithCloud.vue';
 export { default as IconExit } from './Exit.vue';
 export { default as IconIp } from './Ip.vue';
+export { default as IconCheck } from './Check.vue';
+export { default as IconWarning } from './Warning.vue';
+export { default as IconError } from './Error.vue';
+export { default as IconAwesome } from './Awesome.vue';
