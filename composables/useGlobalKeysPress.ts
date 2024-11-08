@@ -1,4 +1,6 @@
 export default function () {
+	const { locale, availableLocales, setLocale } = useI18n();
+
 	const onDocumentKeyPress = (e: KeyboardEvent) => {
 		const isCtrl = e.ctrlKey;
 		const key = e.key;
@@ -11,6 +13,17 @@ export default function () {
 			console.log('Dark mode value before the change: ', $isDarkMode.value);
 
 			$toggleMode();
+		}
+		// Localization
+		else if (isCtrl && key === 'z') {
+			const curLocaleInd = availableLocales.findIndex(
+				(l) => l === locale.value,
+			);
+
+			const indOfNextLocale =
+				curLocaleInd + 1 >= availableLocales.length ? 0 : curLocaleInd + 1;
+
+			setLocale(availableLocales[indOfNextLocale]);
 		}
 	};
 
