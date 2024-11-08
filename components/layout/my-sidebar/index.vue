@@ -10,6 +10,8 @@
 	const { $isDarkMode, $toggleMode } = useNuxtApp();
 
 	const props = defineProps<{ isActive: boolean }>();
+
+	const switchLocale = useSwitchLocale();
 </script>
 
 <template>
@@ -22,6 +24,7 @@
 	>
 		<Header class="mb-10" />
 
+		<!-- Features -->
 		<div class="space-y-4">
 			<Feature @click="$toggleMode">
 				<template #icon>
@@ -32,7 +35,7 @@
 				{{ $t('comps.layout.my-sidebar.features.color-theme') }}
 			</Feature>
 
-			<Feature>
+			<Feature @click="switchLocale">
 				<template #icon>
 					<IconLocalization class="scale-150" />
 				</template>

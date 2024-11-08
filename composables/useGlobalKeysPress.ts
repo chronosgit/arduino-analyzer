@@ -1,29 +1,27 @@
 export default function () {
-	const { locale, availableLocales, setLocale } = useI18n();
+	const switchLocale = useSwitchLocale();
+
+	const lastExecutionTime = ref(0);
 
 	const onDocumentKeyPress = (e: KeyboardEvent) => {
 		const isCtrl = e.ctrlKey;
 		const key = e.key;
 
+		const now = Date.now();
+
+		if (now - lastExecutionTime.value <= 300) return;
+
+		lastExecutionTime.value = now;
+
 		// Toggle color theme
 		if (isCtrl && key === 'q') {
-			const { $isDarkMode, $toggleMode } = useNuxtApp();
-
-			// WARN: for debug purposes
-			console.log('Dark mode value before the change: ', $isDarkMode.value);
+			const { $toggleMode } = useNuxtApp();
 
 			$toggleMode();
 		}
 		// Localization
 		else if (isCtrl && key === 'z') {
-			const curLocaleInd = availableLocales.findIndex(
-				(l) => l === locale.value,
-			);
-
-			const indOfNextLocale =
-				curLocaleInd + 1 >= availableLocales.length ? 0 : curLocaleInd + 1;
-
-			setLocale(availableLocales[indOfNextLocale]);
+			switchLocale();
 		}
 	};
 
