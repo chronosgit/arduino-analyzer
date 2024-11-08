@@ -21,7 +21,7 @@
 
 <template>
 	<aside
-		class="dark:border-r-zinc-700 border-r-[1px] dark:bg-zinc-900 bg-white min-w-[30%] fixed left-0 top-0 p-2 transition-transform bottom-0"
+		class="dark:border-r-zinc-700 border-r-[1px] dark:bg-zinc-900 bg-white min-w-[40%] fixed left-0 top-0 p-2 transition-transform bottom-0"
 		:class="{
 			'translate-x-0': props.isActive,
 			'-translate-x-full': !props.isActive,

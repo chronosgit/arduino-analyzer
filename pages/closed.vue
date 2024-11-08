@@ -2,9 +2,11 @@
 	import { useCurSessionStore } from '~/store/useCurSessionStore';
 
 	const localePath = useLocalePath();
+	const { t } = useI18n();
+
+	useHead({ title: t('pages./closed.meta.title') });
 
 	const curSessionStore = useCurSessionStore();
-
 	const input = ref('');
 
 	const connect = () => {
