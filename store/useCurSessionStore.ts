@@ -5,7 +5,7 @@ export const useCurSessionStore = defineStore('curSessionStore', () => {
 	const isSessionRdy = ref(false);
 
 	const startSession = (ip: string) => {
-		if (!verifyIpAddress(ip)) return;
+		if (!verifyIPv4Address(ip)) return;
 
 		arduinoEspIpAddress.value = ip.trim();
 
