@@ -1,6 +1,7 @@
 export const useGasStore = defineStore('gasStore', () => {
 	const gas = ref<number[]>([]);
 	const numOfDangerMeasurements = ref(0);
+	const numOfModerateMeasurements = ref(0);
 
 	const dangerGasThreshold = 600;
 
@@ -10,6 +11,7 @@ export const useGasStore = defineStore('gasStore', () => {
 		}
 
 		if (gasMeasurement > dangerGasThreshold) numOfDangerMeasurements.value++;
+		else numOfModerateMeasurements.value++;
 
 		gas.value.push(gasMeasurement);
 	};
@@ -22,6 +24,7 @@ export const useGasStore = defineStore('gasStore', () => {
 	return {
 		gas,
 		numOfDangerMeasurements,
+		numOfModerateMeasurements,
 		dangerGasThreshold,
 		addGasMeasurement,
 		clearGasValue,
