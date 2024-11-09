@@ -9,3 +9,4 @@ export { default as IconCheck } from './Check.vue';
 export { default as IconWarning } from './Warning.vue';
 export { default as IconError } from './Error.vue';
 export { default as IconAwesome } from './Awesome.vue';
+export { default as IconInfo } from './Info.vue';

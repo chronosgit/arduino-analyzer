@@ -1,8 +1,36 @@
 {
 	"pages": {
+		"/": {
+			"arduino-state-heading": {
+				"msg": {
+					"true": "Connected to Arduino",
+					"false": "No connection to arduino",
+					"rest": "Connection state is unknown"
+				}
+			},
+			"gas": {
+				"title": "Gas density",
+				"no-data": "No gas is yet available from the gas sensor",
+				"line-chart": "Gas density",
+				"pie-chart": {
+					"danger": "Danger",
+					"moderate": "Moderate"
+				}
+			},
+			"temperature": {
+				"title": "Temperature in °C",
+				"no-data": "No data is yet available from the temperature sensor",
+				"line-chart": "Temperature in °C",
+				"pie-chart": {
+					"cold": "Cold",
+					"warm": "Warm",
+					"hot": "Hot"
+				}
+			}
+		},
 		"/closed": {
 			"meta": {
-				"title": "No connection to Arduino"
+				"title": "Session is closed"
 			},
 			"h1": "Is Arduino setup ready?",
 			"btns": {

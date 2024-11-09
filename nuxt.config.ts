@@ -14,7 +14,10 @@ export default defineNuxtConfig({
 		dirs: ['composables', 'composables/**'],
 	},
 
-	plugins: ['~/plugins/01.color-theme.client.ts'],
+	plugins: [
+		'~/plugins/01.color-theme.client.ts',
+		'~/plugins/02.chart-js.client.ts',
+	],
 
 	runtimeConfig: {},
 
