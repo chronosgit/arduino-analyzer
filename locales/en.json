@@ -7,6 +7,12 @@
 					"false": "No connection to arduino",
 					"rest": "Connection state is unknown"
 				}
+			},
+			"gas": {
+				"no-data": "No gas is yet available from the gas sensor"
+			},
+			"temperature": {
+				"no-data": "No data is yet available from the temperature sensor"
 			}
 		},
 		"/closed": {
