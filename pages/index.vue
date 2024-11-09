@@ -1,7 +1,23 @@
 <script setup lang="ts">
-	const { isArduinoAlive, isLoading } = useArduino();
+	import ArduinoStateHeading from './_components/ArduinoStateHeading.vue';
+	import GasChart from './_components/GasChart.vue';
+	import TemperatureChart from './_components/TemperatureChart.vue';
+
+	const { isArduinoAlive } = useArduino();
+	const { lastGas } = useGas();
+
+	provide('lastGas', lastGas);
+	provide('isArduinoAlive', isArduinoAlive);
 </script>
 
 <template>
-	<div class="h-screen dark:bg-zinc-900">Home</div>
+	<div class="px-2 pt-8 h-screen dark:bg-zinc-900">
+		<div class="container pb-12 mx-auto space-y-14">
+			<ArduinoStateHeading />
+
+			<GasChart />
+
+			<TemperatureChart />
+		</div>
+	</div>
 </template>
