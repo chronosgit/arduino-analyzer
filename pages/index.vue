@@ -4,9 +4,10 @@
 	import TemperatureChart from './_components/TemperatureChart.vue';
 
 	const { isArduinoAlive } = useArduino();
-	const { lastGas } = useGas();
 
-	provide('lastGas', lastGas);
+	useGas();
+	useTemperature();
+
 	provide('isArduinoAlive', isArduinoAlive);
 </script>
 

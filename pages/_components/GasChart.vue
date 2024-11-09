@@ -8,13 +8,13 @@
 		labels: gasStore.gas.map((_, i) => i + 1),
 		datasets: [
 			{
-				label: 'Gas',
+				label: 'Gas density',
 				data: gasStore.gas,
 				tension: 0.1,
-				borderColor: 'rgb(144, 238, 144)',
+				borderColor: 'rgb(200, 200, 230)',
 
 				pointBackgroundColor: gasStore.gas.map((value) =>
-					value > 600 ? 'rgb(255, 69, 0)' : 'rgb(144, 238, 144)',
+					value > 600 ? 'red' : 'lime',
 				),
 			},
 		],
