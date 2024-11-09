@@ -2,13 +2,15 @@
 	import { LineChart } from 'vue-chart-3';
 	import { useTemperatureStore } from '~/store/useTemperatureStore';
 
+	const { t } = useI18n();
+
 	const temperatureStore = useTemperatureStore();
 
 	const data = computed(() => ({
 		labels: temperatureStore.temperature.map((_, i) => i + 1),
 		datasets: [
 			{
-				label: 'Temperature °C',
+				label: t('pages./.temperature.line-chart', 'Temperature in °C'),
 				data: temperatureStore.temperature,
 				tension: 0.1,
 				borderColor: 'rgb(200, 224, 208)',
