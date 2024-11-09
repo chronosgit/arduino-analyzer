@@ -1,7 +1,9 @@
+import type IServerApiResponse from '~/interfaces/IServerApiResponse';
+
 // eslint-disable-next-line
 class TemperatureService {
 	static async getTemperatureInCelcius() {
-		return $fetch('/api/mock/temperature');
+		return $fetch<IServerApiResponse<number>>('/api/mock/temperature');
 	}
 }
 
