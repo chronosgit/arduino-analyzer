@@ -1,26 +1,39 @@
-import TemperatureService from '~/services/TemperatureService';
-
 export const useTemperatureStore = defineStore('TemperatureStore', () => {
 	const temperature = ref<number[]>([]);
 
-	const fetchTemperatureDensity = async () => {
-		try {
-			const { data: fetchedTemperatureInCelcius } =
-				await TemperatureService.getTemperatureInCelcius();
+	const numOfColdTemperatureMeasurements = ref(0);
+	const numOfWarmTemperatureMeasurements = ref(0);
+	const numOfHotTemperatureMeasurements = ref(0);
 
-			temperature.value.push(fetchedTemperatureInCelcius);
+	const maxColdTemperature = 0;
+	const maxWarmTemperature = 25;
 
-			return fetchedTemperatureInCelcius;
-		} catch (err) {
-			console.error(err);
+	const addTemperatureMeasurement = (temp: number) => {
+		if (typeof temp !== 'number' || Number.isNaN(temp)) return;
 
-			return null;
+		if (temp <= maxColdTemperature) {
+			numOfColdTemperatureMeasurements.value++;
+		} else if (temp <= maxWarmTemperature) {
+			numOfWarmTemperatureMeasurements.value++;
+		} else {
+			numOfHotTemperatureMeasurements.value++;
 		}
+
+		temperature.value.push(temp);
 	};
 
 	const clearTemperatureValue = () => {
 		temperature.value = [];
 	};
 
-	return { temperature, fetchTemperatureDensity, clearTemperatureValue };
+	return {
+		temperature,
+		maxColdTemperature,
+		maxWarmTemperature,
+		numOfColdTemperatureMeasurements,
+		numOfWarmTemperatureMeasurements,
+		numOfHotTemperatureMeasurements,
+		addTemperatureMeasurement,
+		clearTemperatureValue,
+	};
 });
