@@ -1,8 +1,17 @@
 {
 	"pages": {
+		"/": {
+			"arduino-state-heading": {
+				"msg": {
+					"true": "Connected to Arduino",
+					"false": "No connection to arduino",
+					"rest": "Connection state is unknown"
+				}
+			}
+		},
 		"/closed": {
 			"meta": {
-				"title": "No connection to Arduino"
+				"title": "Session is closed"
 			},
 			"h1": "Is Arduino setup ready?",
 			"btns": {
