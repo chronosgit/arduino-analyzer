@@ -1,25 +1,29 @@
-import GasService from '~/services/GasService';
-
 export const useGasStore = defineStore('gasStore', () => {
 	const gas = ref<number[]>([]);
+	const numOfDangerMeasurements = ref(0);
 
-	const fetchGasDensity = async () => {
-		try {
-			const { data: fetchedGas } = await GasService.getGasDensity();
+	const dangerGasThreshold = 600;
 
-			gas.value.push(fetchedGas);
-
-			return fetchedGas;
-		} catch (err) {
-			console.error(err);
-
-			return null;
+	const addGasMeasurement = (gasMeasurement: number) => {
+		if (typeof gasMeasurement !== 'number' || Number.isNaN(gasMeasurement)) {
+			return;
 		}
+
+		if (gasMeasurement > dangerGasThreshold) numOfDangerMeasurements.value++;
+
+		gas.value.push(gasMeasurement);
 	};
 
 	const clearGasValue = () => {
 		gas.value = [];
+		numOfDangerMeasurements.value = 0;
 	};
 
-	return { gas, fetchGasDensity, clearGasValue };
+	return {
+		gas,
+		numOfDangerMeasurements,
+		dangerGasThreshold,
+		addGasMeasurement,
+		clearGasValue,
+	};
 });
