@@ -9,7 +9,7 @@
 				"start-session": "Connect"
 			},
 			"toasts": {
-				"invalid-ip": "IP address is invalid"
+				"invalid-ipv4": "IPv4 address is invalid"
 			}
 		}
 	},
