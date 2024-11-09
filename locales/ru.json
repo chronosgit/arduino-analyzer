@@ -9,7 +9,7 @@
 				"start-session": "Подключиться"
 			},
 			"toasts": {
-				"invalid-ip": "IP адрес недействителен"
+				"invalid-ipv4": "IPv4 адрес недействителен"
 			}
 		}
 	},

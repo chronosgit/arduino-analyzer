@@ -13,11 +13,11 @@
 	const input = ref('');
 
 	const connect = () => {
-		if (!verifyIpAddress(input.value)) {
+		if (!verifyIPv4Address(input.value)) {
 			addToast({
 				id: generateRandomString(),
 				type: 'error',
-				message: t('pages./closed.toasts.invalid-ip'),
+				message: t('pages./closed.toasts.invalid-ipv4'),
 				lifespan: 3000,
 			});
 
