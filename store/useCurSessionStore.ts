@@ -3,7 +3,7 @@ export const useCurSessionStore = defineStore('curSessionStore', () => {
 
 	const arduinoEspIpAddress = ref<string | null>(null);
 
-	const isSessionRdy = ref(true);
+	const isSessionRdy = ref(false);
 	const isArduinoAlive = ref<boolean | null>(null);
 
 	const startSession = (ip: string) => {
