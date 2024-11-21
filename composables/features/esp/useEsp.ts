@@ -1,4 +1,4 @@
-import ArduinoService from '~/services/ArduinoService';
+import EspService from '~/services/EspService';
 import { useCurSessionStore } from '~/store/useCurSessionStore';
 
 export default function () {
@@ -7,14 +7,14 @@ export default function () {
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	const {
-		data: isArduinoAlive,
+		data: isEspAlive,
 		status,
 		execute,
 	} = useLazyAsyncData(
-		'useArduino',
+		'useEsp',
 		async () => {
 			try {
-				const { data } = await ArduinoService.checkArduinoState();
+				const { data } = await EspService.checkEspState();
 
 				return data;
 			} catch (err) {
@@ -42,5 +42,5 @@ export default function () {
 		}
 	});
 
-	return { isArduinoAlive, isLoading };
+	return { isEspAlive, isLoading };
 }

@@ -1,10 +1,10 @@
 import type IServerApiResponse from '~/interfaces/IServerApiResponse';
 
 // eslint-disable-next-line
-class ArduinoService {
-	static async checkArduinoState() {
+class EspService {
+	static async checkEspState() {
 		return $fetch<IServerApiResponse<boolean | null>>('/api/healthcheck');
 	}
 }
 
-export default ArduinoService;
+export default EspService;

@@ -1,21 +1,21 @@
 export const useCurSessionStore = defineStore('curSessionStore', () => {
 	const localePath = useLocalePath();
 
-	const arduinoEspIpAddress = ref<string | null>(null);
+	const espIpAddress = ref<string | null>(null);
 
 	const isSessionRdy = ref(false);
-	const isArduinoAlive = ref<boolean | null>(null);
+	const isEspAlive = ref<boolean | null>(null);
 
 	const startSession = (ip: string) => {
 		if (!verifyIPv4Address(ip)) return;
 
-		arduinoEspIpAddress.value = ip.trim();
+		espIpAddress.value = ip.trim();
 
 		isSessionRdy.value = true;
 	};
 
 	const closeSession = () => {
-		arduinoEspIpAddress.value = null;
+		espIpAddress.value = null;
 
 		isSessionRdy.value = false;
 
@@ -23,9 +23,9 @@ export const useCurSessionStore = defineStore('curSessionStore', () => {
 	};
 
 	return {
-		arduinoEspIpAddress,
+		espIpAddress,
 		isSessionRdy,
-		isArduinoAlive,
+		isEspAlive,
 		startSession,
 		closeSession,
 	};
