@@ -1,6 +1,9 @@
 {
 	"pages": {
 		"/": {
+			"meta": {
+				"title": "ESP Sensors Analyzer"
+			},
 			"esp-state-heading": {
 				"msg": {
 					"true": "Connected to ESP",
