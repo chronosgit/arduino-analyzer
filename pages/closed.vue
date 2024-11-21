@@ -47,7 +47,7 @@
 				v-model="input"
 				type="text"
 				class="dark:bg-zinc-700 bg-zinc-100 p-2 dark:text-white rounded-md border-[1px] dark:border-zinc-700 border-zinc-100 outline-none focus:border-indigo-500"
-				placeholder="Arduino ESP IP address"
+				:placeholder="t('pages./closed.input-placeholder')"
 				required
 			/>
 

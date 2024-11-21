@@ -1,10 +1,10 @@
 {
 	"pages": {
 		"/": {
-			"arduino-state-heading": {
+			"esp-state-heading": {
 				"msg": {
-					"true": "Connected to Arduino",
-					"false": "No connection to arduino",
+					"true": "Connected to ESP",
+					"false": "No connection to ESP",
 					"rest": "Connection state is unknown"
 				}
 			},
@@ -32,7 +32,8 @@
 			"meta": {
 				"title": "Session is closed"
 			},
-			"h1": "Is Arduino setup ready?",
+			"h1": "Is ESP setup ready?",
+			"input-placeholder": "ESP IP address",
 			"btns": {
 				"start-session": "Connect"
 			},

@@ -3,24 +3,21 @@
 
 	const { t } = useI18n();
 
-	const isArduinoAlive = inject<Ref<boolean | null>>(
-		'isArduinoAlive',
-		ref(null),
-	);
+	const isEspAlive = inject<Ref<boolean | null>>('isEspAlive', ref(null));
 
 	const headingMsg = computed(() => {
-		switch (isArduinoAlive.value) {
+		switch (isEspAlive.value) {
 			case true:
-				return t('pages./.arduino-state-heading.msg.true');
+				return t('pages./.esp-state-heading.msg.true');
 			case false:
-				return t('pages./.arduino-state-heading.msg.false');
+				return t('pages./.esp-state-heading.msg.false');
 			default:
-				return t('pages./.arduino-state-heading.msg.rest');
+				return t('pages./.esp-state-heading.msg.rest');
 		}
 	});
 
 	const style = computed(() => {
-		switch (isArduinoAlive.value) {
+		switch (isEspAlive.value) {
 			case true:
 				return 'bg-green-400 dark:bg-green-900 dark:text-white';
 			case false:
