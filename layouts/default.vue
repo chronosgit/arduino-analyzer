@@ -15,7 +15,7 @@
 	// Localization-based title
 	const title = computed(() => {
 		const customTitle = route.meta.title as string | undefined;
-		const defaultTitle = 'Arduino Analyzer';
+		const defaultTitle = 'ESP Sensors Analyzer';
 
 		if (!customTitle) return defaultTitle;
 

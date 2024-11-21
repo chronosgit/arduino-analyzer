@@ -7,6 +7,10 @@
 	import { useGasStore } from '~/store/useGasStore';
 	import { useTemperatureStore } from '~/store/useTemperatureStore';
 
+	const { t } = useI18n();
+
+	useHead({ title: t('pages./.meta.title') });
+
 	const gasStore = useGasStore();
 	const temperatureStore = useTemperatureStore();
 

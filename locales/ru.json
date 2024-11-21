@@ -1,6 +1,9 @@
 {
 	"pages": {
 		"/": {
+			"meta": {
+				"title": "ESP Анализатор Сенсоров"
+			},
 			"esp-state-heading": {
 				"msg": {
 					"true": "Подключение к ESP успешно",
