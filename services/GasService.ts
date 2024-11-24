@@ -3,7 +3,7 @@ import type IServerApiResponse from '~/interfaces/IServerApiResponse';
 // eslint-disable-next-line
 class GasService {
 	static async getGasDensity() {
-		return $fetch<IServerApiResponse<number>>('/api/mock/gas');
+		return $fetch<IServerApiResponse<number>>('/api/esp/gas');
 	}
 }
 

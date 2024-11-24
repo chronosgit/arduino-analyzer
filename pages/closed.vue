@@ -12,7 +12,7 @@
 	const curSessionStore = useCurSessionStore();
 	const input = ref('');
 
-	const connect = () => {
+	const connectWithEsp = () => {
 		if (!verifyIPv4Address(input.value)) {
 			addToast({
 				id: generateRandomString(),
@@ -24,6 +24,12 @@
 			return;
 		}
 
+		curSessionStore.startSession(input.value);
+
+		navigateTo(localePath('/'));
+	};
+
+	const connectWithoutEsp = () => {
 		curSessionStore.startSession(input.value);
 
 		navigateTo(localePath('/'));
@@ -40,7 +46,7 @@
 
 		<form
 			class="flex flex-col xs:flex-row items-center gap-3"
-			@submit.prevent="connect"
+			@submit.prevent="connectWithEsp"
 		>
 			<!-- eslint-disable-next-line-->
 			<input
@@ -54,8 +60,15 @@
 			<button
 				class="transition-colors hover:bg-indigo-600 bg-indigo-500 py-2 px-4 rounded-full text-white font-medium"
 			>
-				{{ $t('pages./closed.btns.start-session') }}
+				{{ $t('pages./closed.btns.connect-with-esp', 'Connect') }}
 			</button>
 		</form>
+
+		<button
+			class="transition-colors hover:bg-violet-600 bg-violet-500 py-2 px-4 rounded-full text-white font-medium"
+			@click="connectWithoutEsp"
+		>
+			{{ $t('pages./closed.btns.connect-without-esp', 'Connect') }}
+		</button>
 	</section>
 </template>

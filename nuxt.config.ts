@@ -19,7 +19,9 @@ export default defineNuxtConfig({
 		'~/plugins/02.chart-js.client.ts',
 	],
 
-	runtimeConfig: {},
+	runtimeConfig: {
+		MONGODB_URI: import.meta.env?.MONGODB_URI,
+	},
 
 	modules: [
 		'@pinia/nuxt',
@@ -30,6 +32,11 @@ export default defineNuxtConfig({
 		'@nuxtjs/i18n',
 		'@nuxt/eslint',
 	],
+
+	// Nitro
+	nitro: {
+		plugins: ['./plugins/mongoose.ts'],
+	},
 
 	// Tailwind
 	css: ['~/assets/css/tailwind.css'],
