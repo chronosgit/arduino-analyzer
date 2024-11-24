@@ -1,4 +1,4 @@
-export type TypeGas =
+export type TGasType =
 	| 'methane'
 	| 'hydrogen'
 	| 'smoke'

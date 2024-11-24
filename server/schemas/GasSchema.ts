@@ -1,8 +1,8 @@
 import { Schema } from 'mongoose';
 import type IGas from '~/server/interfaces/features/gas/IGas';
-import type { TypeGas } from '~/server/interfaces/features/gas/TypeGas';
+import type { TGasType } from '~/server/interfaces/features/gas/TGasType';
 
-const GasTypes = <TypeGas[]>[
+const GasTypes = <TGasType[]>[
 	'methane',
 	'hydrogen',
 	'smoke',
