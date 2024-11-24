@@ -59,7 +59,7 @@
 		</Feature>
 
 		<!-- Fixed at the bottom -->
-		<IpAddress />
+		<IpAddress v-if="curSessionStore.espIpAddress" />
 	</aside>
 </template>
 

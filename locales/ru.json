@@ -38,7 +38,8 @@
 			"h1": "Собрали дизайн на ESP?",
 			"input-placeholder": "IP адрес ESP",
 			"btns": {
-				"start-session": "Подключиться"
+				"connect-with-esp": "Подключиться с ESP",
+				"connect-without-esp": "Подключиться без ESP"
 			},
 			"toasts": {
 				"invalid-ipv4": "IPv4 адрес недействителен"

@@ -6,10 +6,10 @@ export const useCurSessionStore = defineStore('curSessionStore', () => {
 	const isSessionRdy = ref(false);
 	const isEspAlive = ref<boolean | null>(null);
 
-	const startSession = (ip: string) => {
-		if (!verifyIPv4Address(ip)) return;
+	const startSession = (ip?: string) => {
+		if (ip && !verifyIPv4Address(ip)) return;
 
-		espIpAddress.value = ip.trim();
+		espIpAddress.value = ip ? ip.trim() : null;
 
 		isSessionRdy.value = true;
 	};

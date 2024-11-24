@@ -38,7 +38,8 @@
 			"h1": "Is ESP setup ready?",
 			"input-placeholder": "ESP IP address",
 			"btns": {
-				"start-session": "Connect"
+				"connect-with-esp": "Connect with ESP",
+				"connect-without-esp": "Connect without ESP"
 			},
 			"toasts": {
 				"invalid-ipv4": "IPv4 address is invalid"
