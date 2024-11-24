@@ -1,4 +1,4 @@
-import type { TypeGas } from '~/server/interfaces/TypeGas';
+import type { TypeGas } from '~/server/interfaces/features/gas/TypeGas';
 import type { ObjectId } from 'mongoose';
 
 export default interface IGas {
