@@ -1,27 +1,27 @@
 import { useCurSessionStore } from '~/store/useCurSessionStore';
-import { useTemperatureStore } from '~/store/useTemperatureStore';
-import TemperatureService from '~/services/TemperatureService';
+import { useGasStore } from '~/store/useGasStore';
+import GasService from '~/services/GasService';
+import type IGas from '~/interfaces/features/gas/IGas';
 
 export default function () {
 	const curSessionStore = useCurSessionStore();
-	const temperatureStore = useTemperatureStore();
+	const gasStore = useGasStore();
 
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	const {
-		data: lastTemperature,
+		data: lastGas,
 		status,
 		execute,
-	} = useLazyAsyncData(
-		'useTemperature',
+	} = useLazyAsyncData<IGas[] | null>(
+		'useGas',
 		async () => {
 			try {
-				const { data: fetchedTemp } =
-					await TemperatureService.getTemperatureInCelcius();
+				const { data: gasRecords } = await GasService.getGasRecordsFromDb();
 
-				temperatureStore.addTemperatureMeasurement(Math.floor(fetchedTemp));
+				gasStore.completelyReAddGas(gasRecords);
 
-				return Math.floor(fetchedTemp);
+				return gasRecords;
 			} catch (err) {
 				console.error(err);
 
@@ -47,5 +47,5 @@ export default function () {
 		}
 	});
 
-	return { lastTemperature, isLoading };
+	return { lastGas, isLoading };
 }
