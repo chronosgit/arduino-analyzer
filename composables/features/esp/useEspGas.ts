@@ -16,7 +16,13 @@ export default function () {
 			try {
 				const res = await GasService.postEspGasRecordToDb();
 
-				return res?.data;
+				if (res == null) return null;
+
+				const { data: gasRecord } = res;
+
+				console.log(gasRecord);
+
+				return gasRecord;
 			} catch (err) {
 				console.error(err);
 
