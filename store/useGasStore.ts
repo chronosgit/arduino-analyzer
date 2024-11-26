@@ -5,20 +5,10 @@ export const useGasStore = defineStore('gasStore', () => {
 	const numOfDangerMeasurements = ref(0);
 	const numOfModerateMeasurements = ref(0);
 
-	const moderateGasThreshold = 600;
-
-	const completelyReAddGas = (gasRecords: IGas[]) => {
+	const addGas = (gasRecords: IGas[]) => {
 		if (!Array.isArray(gasRecords)) return;
 
 		gas.value = gasRecords;
-	};
-
-	const addGas = (gasRecord: IGas) => {
-		const gasVal = gasRecord.value;
-
-		if (typeof gasVal !== 'number' || Number.isNaN(gasVal)) return;
-
-		gas.value.push(gasRecord);
 	};
 
 	const clearGas = () => {
@@ -27,29 +17,25 @@ export const useGasStore = defineStore('gasStore', () => {
 		numOfModerateMeasurements.value = 0;
 	};
 
-	const updatedMeasurementCounts = (
+	const updateMeasurementCounts = (
 		newNumOfModerateMeasurements: number,
 		newNumOfDangerMeasurements: number,
 	) => {
-		if (
-			typeof newNumOfDangerMeasurements !== 'number' ||
-			typeof newNumOfModerateMeasurements !== 'number'
-		) {
-			return;
+		if (typeof newNumOfDangerMeasurements === 'number') {
+			numOfDangerMeasurements.value = newNumOfDangerMeasurements;
 		}
 
-		numOfDangerMeasurements.value = newNumOfDangerMeasurements;
-		numOfModerateMeasurements.value = newNumOfModerateMeasurements;
+		if (typeof newNumOfModerateMeasurements === 'number') {
+			numOfModerateMeasurements.value = newNumOfModerateMeasurements;
+		}
 	};
 
 	return {
 		gas,
 		numOfDangerMeasurements,
 		numOfModerateMeasurements,
-		moderateGasThreshold,
-		completelyReAddGas,
 		addGas,
 		clearGas,
-		updatedMeasurementCounts,
+		updateMeasurementCounts,
 	};
 });

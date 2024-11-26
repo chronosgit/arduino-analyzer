@@ -7,29 +7,10 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 	const numOfWarmTemperatureMeasurements = ref(0);
 	const numOfHotTemperatureMeasurements = ref(0);
 
-	const maxColdTemperature = 0;
-	const maxWarmTemperature = 25;
-
-	const completelyReAddTemperature = (temp: ITemperature[]) => {
+	const addTemperature = (temp: ITemperature[]) => {
 		if (!Array.isArray(temp)) return;
 
 		temperature.value = temp;
-	};
-
-	const addTemperature = (temp: ITemperature) => {
-		const tempVal = temp.value;
-
-		if (typeof tempVal !== 'number' || Number.isNaN(tempVal)) return;
-
-		if (tempVal <= maxColdTemperature) {
-			numOfColdTemperatureMeasurements.value++;
-		} else if (tempVal <= maxWarmTemperature) {
-			numOfWarmTemperatureMeasurements.value++;
-		} else {
-			numOfHotTemperatureMeasurements.value++;
-		}
-
-		temperature.value.push(temp);
 	};
 
 	const clearTemperature = () => {
@@ -39,15 +20,31 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 		numOfWarmTemperatureMeasurements.value = 0;
 	};
 
+	const updatedMeasurementCounts = (
+		newNumOfColdTempMeasurements: number,
+		newNumOfWarmTempMeasurements: number,
+		newNumOfHotTempMeasurements: number,
+	) => {
+		if (typeof newNumOfColdTempMeasurements === 'number') {
+			numOfColdTemperatureMeasurements.value = newNumOfColdTempMeasurements;
+		}
+
+		if (typeof newNumOfWarmTempMeasurements === 'number') {
+			numOfWarmTemperatureMeasurements.value = newNumOfWarmTempMeasurements;
+		}
+
+		if (typeof newNumOfHotTempMeasurements === 'number') {
+			numOfHotTemperatureMeasurements.value = newNumOfHotTempMeasurements;
+		}
+	};
+
 	return {
 		temperature,
-		maxColdTemperature,
-		maxWarmTemperature,
 		numOfColdTemperatureMeasurements,
 		numOfWarmTemperatureMeasurements,
 		numOfHotTemperatureMeasurements,
-		completelyReAddTemperature,
 		addTemperature,
 		clearTemperature,
+		updatedMeasurementCounts,
 	};
 });
