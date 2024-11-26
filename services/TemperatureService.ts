@@ -8,7 +8,7 @@ class TemperatureService {
 	}
 
 	static async postEspTemperatureRecordToDb() {
-		return $fetch<IServerApiResponse<number>>('/api/esp/temperature', {
+		return $fetch<IServerApiResponse<ITemperature>>('/api/esp/temperature', {
 			method: 'POST',
 		});
 	}
