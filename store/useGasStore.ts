@@ -18,9 +18,6 @@ export const useGasStore = defineStore('gasStore', () => {
 
 		if (typeof gasVal !== 'number' || Number.isNaN(gasVal)) return;
 
-		if (gasVal > moderateGasThreshold) numOfDangerMeasurements.value++;
-		else numOfModerateMeasurements.value++;
-
 		gas.value.push(gasRecord);
 	};
 
@@ -28,6 +25,21 @@ export const useGasStore = defineStore('gasStore', () => {
 		gas.value = [];
 		numOfDangerMeasurements.value = 0;
 		numOfModerateMeasurements.value = 0;
+	};
+
+	const updatedMeasurementCounts = (
+		newNumOfModerateMeasurements: number,
+		newNumOfDangerMeasurements: number,
+	) => {
+		if (
+			typeof newNumOfDangerMeasurements !== 'number' ||
+			typeof newNumOfModerateMeasurements !== 'number'
+		) {
+			return;
+		}
+
+		numOfDangerMeasurements.value = newNumOfDangerMeasurements;
+		numOfModerateMeasurements.value = newNumOfModerateMeasurements;
 	};
 
 	return {
@@ -38,5 +50,6 @@ export const useGasStore = defineStore('gasStore', () => {
 		completelyReAddGas,
 		addGas,
 		clearGas,
+		updatedMeasurementCounts,
 	};
 });
