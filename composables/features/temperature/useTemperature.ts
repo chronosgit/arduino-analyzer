@@ -25,13 +25,25 @@ export default function () {
 					limit.value,
 				);
 
-				if (res == null) return null;
+				if (res?.data == null) return null;
 
-				const { data: fetchedTemp } = res;
+				const {
+					data: {
+						temperature,
+						numberOfColdTemperatureMeasurements,
+						numberOfWarmTemperatureMeasurements,
+						numberOfHotTemperatureMeasurements,
+					},
+				} = res;
 
-				temperatureStore.completelyReAddTemperature(fetchedTemp);
+				temperatureStore.addTemperature(temperature);
+				temperatureStore.updatedMeasurementCounts(
+					numberOfColdTemperatureMeasurements,
+					numberOfWarmTemperatureMeasurements,
+					numberOfHotTemperatureMeasurements,
+				);
 
-				return fetchedTemp;
+				return temperature;
 			} catch (err) {
 				console.error(err);
 

@@ -13,7 +13,7 @@ export default function () {
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	const {
-		data: lastGas,
+		data: gas,
 		status,
 		execute,
 	} = useLazyAsyncData<IGas[] | null>(
@@ -24,14 +24,23 @@ export default function () {
 					offset.value,
 					limit.value,
 				);
+				if (res?.data == null) return null;
 
-				if (res == null) return null;
+				const {
+					data: {
+						gas,
+						numberOfDangerGasMeasurements,
+						numberOfModerateGasMeasurements,
+					},
+				} = res;
 
-				const { data: gasRecords } = res;
+				gasStore.addGas(gas);
+				gasStore.updateMeasurementCounts(
+					numberOfModerateGasMeasurements,
+					numberOfDangerGasMeasurements,
+				);
 
-				gasStore.completelyReAddGas(gasRecords);
-
-				return gasRecords;
+				return gas;
 			} catch (err) {
 				console.error(err);
 
@@ -57,5 +66,5 @@ export default function () {
 		}
 	});
 
-	return { lastGas, isLoading };
+	return { gas, isLoading };
 }
