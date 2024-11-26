@@ -1,4 +1,4 @@
-export const useTemperatureStore = defineStore('TemperatureStore', () => {
+export const useTemperatureStore = defineStore('temperatureStore', () => {
 	const temperature = ref<number[]>([]);
 
 	const numOfColdTemperatureMeasurements = ref(0);
