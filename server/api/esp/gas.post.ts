@@ -14,7 +14,11 @@ export default defineEventHandler(async () => {
 		});
 		await gasRecord.save();
 
-		return getSuccessResponse(200, ' gas density');
+		return getSuccessResponse(
+			200,
+			'Got gas record from ESP and posted to DB',
+			gasRecord,
+		);
 	} catch (err) {
 		console.error(err);
 

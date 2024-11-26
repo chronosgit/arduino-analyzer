@@ -1,10 +1,18 @@
 import GasModel from '~/server/models/GasModel';
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (e) => {
 	try {
-		const res = await GasModel.find();
+		const { qOffset, qLimit } = getQuery(e);
 
-		return getSuccessResponse(200, 'Got gas records', res);
+		const offset = qOffset ? parseInt(qOffset.toString()) : 0;
+		const limit = qLimit ? parseInt(qLimit.toString()) : 1;
+
+		const gas = await GasModel.find()
+			.sort({ timestamp: -1 })
+			.skip(offset)
+			.limit(limit);
+
+		return getSuccessResponse(200, 'Got gas records', gas);
 	} catch (err) {
 		console.error(err);
 

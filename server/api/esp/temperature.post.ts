@@ -13,7 +13,11 @@ export default defineEventHandler(async () => {
 		});
 		await temperatureRecord.save();
 
-		return getSuccessResponse(200, 'Got temperature in Celcius');
+		return getSuccessResponse(
+			200,
+			'Got temperature record from ESP and posted to DB',
+			temperatureRecord,
+		);
 	} catch (err) {
 		console.error(err);
 
