@@ -6,16 +6,19 @@
 
 	const temperatureStore = useTemperatureStore();
 
+	const temperatureValues = computed(() =>
+		temperatureStore.temperature.map((te) => te.value),
+	);
+
 	const data = computed(() => ({
-		labels: temperatureStore.temperature.map((_, i) => i + 1),
+		labels: temperatureValues.value.map((_, i) => i + 1),
 		datasets: [
 			{
 				label: t('pages./.temperature.line-chart', 'Temperature in °C'),
-				data: temperatureStore.temperature,
+				data: temperatureValues.value,
 				tension: 0.1,
 				borderColor: 'rgb(200, 224, 208)',
-
-				pointBackgroundColor: temperatureStore.temperature.map((t) => {
+				pointBackgroundColor: temperatureValues.value.map((t) => {
 					if (t <= temperatureStore.maxColdTemperature) {
 						return 'blue';
 					} else if (t <= temperatureStore.maxWarmTemperature) {

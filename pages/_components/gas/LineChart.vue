@@ -6,16 +6,17 @@
 
 	const gasStore = useGasStore();
 
+	const gasValues = computed(() => gasStore.gas.map((g) => g.value));
+
 	const data = computed(() => ({
-		labels: gasStore.gas.map((_, i) => i + 1),
+		labels: gasValues.value.map((_, i) => i + 1),
 		datasets: [
 			{
 				label: t('pages./.gas.line-chart', 'Gas density'),
-				data: gasStore.gas,
+				data: gasValues.value,
 				tension: 0.1,
 				borderColor: 'rgb(200, 200, 230)',
-
-				pointBackgroundColor: gasStore.gas.map((value) =>
+				pointBackgroundColor: gasValues.value.map((value) =>
 					value > 600 ? 'red' : 'lime',
 				),
 			},
