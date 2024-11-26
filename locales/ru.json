@@ -13,7 +13,9 @@
 			},
 			"filters": {
 				"gas": {
-					"filter-by-name-option-disabled": "Тип газа"
+					"filter-by-name-option-disabled": "Тип газа",
+					"gas-offset": "Сдвиг по газу",
+					"gas-limit": "Предел по газу"
 				}
 			},
 			"gas": {

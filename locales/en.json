@@ -13,7 +13,9 @@
 			},
 			"filters": {
 				"gas": {
-					"filter-by-name-option-disabled": "Gas type"
+					"filter-by-name-option-disabled": "Gas type",
+					"gas-offset": "Gas offset",
+					"gas-limit": "Gas limit"
 				}
 			},
 			"gas": {
