@@ -2,6 +2,7 @@ import { useCurSessionStore } from '~/store/useCurSessionStore';
 import { useGasStore } from '~/store/useGasStore';
 import GasService from '~/services/GasService';
 import type IGas from '~/interfaces/features/gas/IGas';
+import type { TGasType } from '~/interfaces/features/gas/TGasType';
 
 export default function () {
 	const curSessionStore = useCurSessionStore();
@@ -9,6 +10,8 @@ export default function () {
 
 	const offset = ref(0);
 	const limit = ref(50);
+
+	const filterByType = ref<TGasType | null>(null);
 
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
@@ -52,6 +55,12 @@ export default function () {
 
 	const isLoading = computed(() => status.value === 'pending');
 
+	const clearGasOptions = () => {
+		offset.value = 0;
+		limit.value = 50;
+		filterByType.value = null;
+	};
+
 	onMounted(() => {
 		timer.value = setInterval(() => {
 			if (!curSessionStore.isSessionRdy) return;
@@ -66,5 +75,5 @@ export default function () {
 		}
 	});
 
-	return { gas, isLoading };
+	return { gas, offset, limit, isLoading, filterByType, clearGasOptions };
 }
