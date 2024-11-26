@@ -22,16 +22,11 @@
 		class="bg-zinc-200 p-1"
 		@change="onSelectChange($event)"
 	>
-		<option disabled :selected="gasFilterByType === null">
+		<option disabled>
 			{{ $t('pages./.filters.gas.filter-by-name-option-disabled') }}
 		</option>
 
-		<option
-			v-for="(t, i) in constants['gasTypes']"
-			:key="i"
-			:value="t"
-			:selected="gasFilterByType === t"
-		>
+		<option v-for="(t, i) in constants['gasTypes']" :key="i" :value="t">
 			{{ $t(`dictionary.${t}`) }}
 		</option>
 	</select>
