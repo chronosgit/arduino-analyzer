@@ -14,11 +14,14 @@ export default function () {
 		status,
 		execute,
 	} = useLazyAsyncData(
-		'useTemperature',
+		'features.temperature.useTemperature',
 		async () => {
 			try {
-				const { data: fetchedTemp } =
-					await TemperatureService.getTemperatureRecordsFromDb();
+				const res = await TemperatureService.getTemperatureRecordsFromDb();
+
+				if (res == null) return null;
+
+				const { data: fetchedTemp } = res;
 
 				temperatureStore.completelyReAddTemperature(fetchedTemp);
 

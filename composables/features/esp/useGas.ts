@@ -1,37 +1,22 @@
 import { useCurSessionStore } from '~/store/useCurSessionStore';
-import { useGasStore } from '~/store/useGasStore';
 import GasService from '~/services/GasService';
-import type IGas from '~/interfaces/features/gas/IGas';
 
 export default function () {
 	const curSessionStore = useCurSessionStore();
-	const gasStore = useGasStore();
-
-	const offset = ref(0);
-	const limit = ref(50);
 
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	const {
-		data: lastGas,
+		data: postedGasFromEsp,
 		status,
 		execute,
-	} = useLazyAsyncData<IGas[] | null>(
-		'features.gas.useGas',
+	} = useLazyAsyncData(
+		'features.esp.useGas',
 		async () => {
 			try {
-				const res = await GasService.getGasRecordsFromDb(
-					offset.value,
-					limit.value,
-				);
+				const res = await GasService.postEspGasRecordToDb();
 
-				if (res == null) return null;
-
-				const { data: gasRecords } = res;
-
-				gasStore.completelyReAddGas(gasRecords);
-
-				return gasRecords;
+				return res?.data;
 			} catch (err) {
 				console.error(err);
 
@@ -57,5 +42,5 @@ export default function () {
 		}
 	});
 
-	return { lastGas, isLoading };
+	return { postedGasFromEsp, isLoading, postGasFromEsp: execute };
 }
