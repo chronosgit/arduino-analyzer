@@ -1,5 +1,7 @@
+import type ITemperature from '~/interfaces/features/temperature/ITemperature';
+
 export const useTemperatureStore = defineStore('temperatureStore', () => {
-	const temperature = ref<number[]>([]);
+	const temperature = ref<ITemperature[]>([]);
 
 	const numOfColdTemperatureMeasurements = ref(0);
 	const numOfWarmTemperatureMeasurements = ref(0);
@@ -8,12 +10,20 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 	const maxColdTemperature = 0;
 	const maxWarmTemperature = 25;
 
-	const addTemperatureMeasurement = (temp: number) => {
-		if (typeof temp !== 'number' || Number.isNaN(temp)) return;
+	const completelyReAddTemperature = (temp: ITemperature[]) => {
+		if (!Array.isArray(temp)) return;
 
-		if (temp <= maxColdTemperature) {
+		temperature.value = temp;
+	};
+
+	const addTemperature = (temp: ITemperature) => {
+		const tempVal = temp.value;
+
+		if (typeof tempVal !== 'number' || Number.isNaN(tempVal)) return;
+
+		if (tempVal <= maxColdTemperature) {
 			numOfColdTemperatureMeasurements.value++;
-		} else if (temp <= maxWarmTemperature) {
+		} else if (tempVal <= maxWarmTemperature) {
 			numOfWarmTemperatureMeasurements.value++;
 		} else {
 			numOfHotTemperatureMeasurements.value++;
@@ -22,8 +32,11 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 		temperature.value.push(temp);
 	};
 
-	const clearTemperatureValue = () => {
+	const clearTemperature = () => {
 		temperature.value = [];
+		numOfColdTemperatureMeasurements.value = 0;
+		numOfHotTemperatureMeasurements.value = 0;
+		numOfWarmTemperatureMeasurements.value = 0;
 	};
 
 	return {
@@ -33,7 +46,8 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 		numOfColdTemperatureMeasurements,
 		numOfWarmTemperatureMeasurements,
 		numOfHotTemperatureMeasurements,
-		addTemperatureMeasurement,
-		clearTemperatureValue,
+		completelyReAddTemperature,
+		addTemperature,
+		clearTemperature,
 	};
 });
