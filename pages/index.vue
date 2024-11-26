@@ -6,10 +6,6 @@
 	import TemperaturePieChart from './_components/temperature/PieChart.vue';
 	import { useGasStore } from '~/store/useGasStore';
 	import { useTemperatureStore } from '~/store/useTemperatureStore';
-	import useDbGas from '~/composables/features/gas/useGas';
-	import useEspGas from '~/composables/features/esp/useGas';
-	import useDbTemperature from '~/composables/features/temperature/useTemperature';
-	import useEspTemperature from '~/composables/features/esp/useTemperature';
 
 	const { t } = useI18n();
 
@@ -22,8 +18,8 @@
 	useEspGas();
 	useEspTemperature();
 
-	useDbGas();
-	useDbTemperature();
+	useGas();
+	useTemperature();
 
 	provide('isEspAlive', isEspAlive);
 </script>
