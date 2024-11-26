@@ -4,7 +4,15 @@ import type IServerApiResponse from '~/interfaces/IServerApiResponse';
 // eslint-disable-next-line
 class TemperatureService {
 	static async getTemperatureRecordsFromDb(offset?: number, limit?: number) {
-		return $fetch<IServerApiResponse<ITemperature[]>>('/api/temperature', {
+		return $fetch<
+			IServerApiResponse<{
+				temperature: ITemperature[];
+				numberOfColdTemperatureMeasurements: number;
+				numberOfWarmTemperatureMeasurements: number;
+				numberOfHotTemperatureMeasurements: number;
+			}>
+		>('/api/temperature', {
+			method: 'GET',
 			params: { offset, limit },
 		});
 	}

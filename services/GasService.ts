@@ -4,7 +4,14 @@ import type IServerApiResponse from '~/interfaces/IServerApiResponse';
 // eslint-disable-next-line
 class GasService {
 	static async getGasRecordsFromDb(offset?: number, limit?: number) {
-		return $fetch<IServerApiResponse<IGas[]>>('/api/gas', {
+		return $fetch<
+			IServerApiResponse<{
+				gas: IGas[];
+				numberOfModerateGasMeasurements: number;
+				numberOfDangerGasMeasurements: number;
+			}>
+		>('/api/gas', {
+			method: 'GET',
 			params: { offset, limit },
 		});
 	}
@@ -12,6 +19,12 @@ class GasService {
 	static async postEspGasRecordToDb() {
 		return $fetch<IServerApiResponse<number>>('/api/esp/gas', {
 			method: 'POST',
+		});
+	}
+
+	static async deleteGasRecordsFromDb() {
+		return $fetch<IServerApiResponse<null | undefined>>('/api/gas', {
+			method: 'DELETE',
 		});
 	}
 }
