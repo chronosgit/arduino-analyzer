@@ -20,8 +20,6 @@ export default function () {
 
 				const { data: gasRecord } = res;
 
-				console.log(gasRecord);
-
 				return gasRecord;
 			} catch (err) {
 				console.error(err);
