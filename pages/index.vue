@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import EspStateHeading from './_components/EspStateHeading.vue';
+	import Filters from './_components/filters/index.vue';
 	import GasLineChart from './_components/gas/LineChart.vue';
 	import GasPieChart from './_components/gas/PieChart.vue';
 	import TemperatureLineChart from './_components/temperature/LineChart.vue';
@@ -15,17 +16,32 @@
 	const temperatureStore = useTemperatureStore();
 
 	const { isEspAlive } = useEsp();
+	useEspGas();
+	useEspTemperature();
 
-	useGas();
+	const {
+		offset: gasOffset,
+		limit: gasLimit,
+		filterByType: gasFilterByType,
+		clearGasOptions,
+	} = useGas();
 	useTemperature();
 
 	provide('isEspAlive', isEspAlive);
+	provide('gasOffset', gasOffset);
+	provide('gasLimit', gasLimit);
+	provide('gasFilterByType', gasFilterByType);
+	provide('clearGasOptions', clearGasOptions);
 </script>
 
 <template>
 	<div class="px-2 pt-8 min-h-screen dark:bg-zinc-900">
-		<div class="container pb-12 mx-auto space-y-32">
-			<EspStateHeading />
+		<div class="container pb-12 mx-auto space-y-20">
+			<div class="space-y-4">
+				<EspStateHeading />
+
+				<Filters />
+			</div>
 
 			<!-- Gas density section -->
 			<section v-if="gasStore.gas.length" class="space-y-10">

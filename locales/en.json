@@ -11,11 +11,19 @@
 					"rest": "Connection state is unknown"
 				}
 			},
+			"filters": {
+				"gas": {
+					"filter-by-name-option-disabled": "Gas type",
+					"gas-offset": "Gas offset",
+					"gas-limit": "Gas limit"
+				}
+			},
 			"gas": {
 				"title": "Gas density",
 				"no-data": "No gas is yet available from the gas sensor",
 				"line-chart": "Gas density",
 				"pie-chart": {
+					"404": "There isn't enough data for a pie chart",
 					"danger": "Danger",
 					"moderate": "Moderate"
 				}
@@ -25,6 +33,7 @@
 				"no-data": "No data is yet available from the temperature sensor",
 				"line-chart": "Temperature in °C",
 				"pie-chart": {
+					"404": "There isn't enough data for a pie chart",
 					"cold": "Cold",
 					"warm": "Warm",
 					"hot": "Hot"
@@ -56,5 +65,14 @@
 				}
 			}
 		}
+	},
+	"dictionary": {
+		"methane": "Methane",
+		"hydrogen": "Hydrogen",
+		"smoke": "Smoke",
+		"butane": "Butane",
+		"ethanol": "Ethanol",
+		"co": "Carbon Monoxide",
+		"lpg": "Liquefied Petroleum Gas"
 	}
 }

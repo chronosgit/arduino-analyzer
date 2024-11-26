@@ -1,39 +1,50 @@
-export const useTemperatureStore = defineStore('TemperatureStore', () => {
-	const temperature = ref<number[]>([]);
+import type ITemperature from '~/interfaces/features/temperature/ITemperature';
+
+export const useTemperatureStore = defineStore('temperatureStore', () => {
+	const temperature = ref<ITemperature[]>([]);
 
 	const numOfColdTemperatureMeasurements = ref(0);
 	const numOfWarmTemperatureMeasurements = ref(0);
 	const numOfHotTemperatureMeasurements = ref(0);
 
-	const maxColdTemperature = 0;
-	const maxWarmTemperature = 25;
+	const addTemperature = (temp: ITemperature[]) => {
+		if (!Array.isArray(temp)) return;
 
-	const addTemperatureMeasurement = (temp: number) => {
-		if (typeof temp !== 'number' || Number.isNaN(temp)) return;
-
-		if (temp <= maxColdTemperature) {
-			numOfColdTemperatureMeasurements.value++;
-		} else if (temp <= maxWarmTemperature) {
-			numOfWarmTemperatureMeasurements.value++;
-		} else {
-			numOfHotTemperatureMeasurements.value++;
-		}
-
-		temperature.value.push(temp);
+		temperature.value = temp;
 	};
 
-	const clearTemperatureValue = () => {
+	const clearTemperature = () => {
 		temperature.value = [];
+		numOfColdTemperatureMeasurements.value = 0;
+		numOfHotTemperatureMeasurements.value = 0;
+		numOfWarmTemperatureMeasurements.value = 0;
+	};
+
+	const updatedMeasurementCounts = (
+		newNumOfColdTempMeasurements: number,
+		newNumOfWarmTempMeasurements: number,
+		newNumOfHotTempMeasurements: number,
+	) => {
+		if (typeof newNumOfColdTempMeasurements === 'number') {
+			numOfColdTemperatureMeasurements.value = newNumOfColdTempMeasurements;
+		}
+
+		if (typeof newNumOfWarmTempMeasurements === 'number') {
+			numOfWarmTemperatureMeasurements.value = newNumOfWarmTempMeasurements;
+		}
+
+		if (typeof newNumOfHotTempMeasurements === 'number') {
+			numOfHotTemperatureMeasurements.value = newNumOfHotTempMeasurements;
+		}
 	};
 
 	return {
 		temperature,
-		maxColdTemperature,
-		maxWarmTemperature,
 		numOfColdTemperatureMeasurements,
 		numOfWarmTemperatureMeasurements,
 		numOfHotTemperatureMeasurements,
-		addTemperatureMeasurement,
-		clearTemperatureValue,
+		addTemperature,
+		clearTemperature,
+		updatedMeasurementCounts,
 	};
 });

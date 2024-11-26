@@ -1,27 +1,22 @@
-import { useCurSessionStore } from '~/store/useCurSessionStore';
-import { useTemperatureStore } from '~/store/useTemperatureStore';
 import TemperatureService from '~/services/TemperatureService';
+import { useCurSessionStore } from '~/store/useCurSessionStore';
 
 export default function () {
 	const curSessionStore = useCurSessionStore();
-	const temperatureStore = useTemperatureStore();
 
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	const {
-		data: lastTemperature,
+		data: postedTemperatureFromEsp,
 		status,
 		execute,
 	} = useLazyAsyncData(
-		'useTemperature',
+		'features.esp.useTemperature',
 		async () => {
 			try {
-				const { data: fetchedTemp } =
-					await TemperatureService.getTemperatureInCelcius();
+				const res = await TemperatureService.postEspTemperatureRecordToDb();
 
-				temperatureStore.addTemperatureMeasurement(Math.floor(fetchedTemp));
-
-				return Math.floor(fetchedTemp);
+				return res?.data;
 			} catch (err) {
 				console.error(err);
 
@@ -47,5 +42,9 @@ export default function () {
 		}
 	});
 
-	return { lastTemperature, isLoading };
+	return {
+		postedTemperatureFromEsp,
+		isLoading,
+		postTemperatureFromEsp: execute,
+	};
 }

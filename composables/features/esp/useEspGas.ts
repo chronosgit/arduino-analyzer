@@ -1,26 +1,26 @@
 import { useCurSessionStore } from '~/store/useCurSessionStore';
-import { useGasStore } from '~/store/useGasStore';
 import GasService from '~/services/GasService';
 
 export default function () {
 	const curSessionStore = useCurSessionStore();
-	const gasStore = useGasStore();
 
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	const {
-		data: lastGas,
+		data: postedGasFromEsp,
 		status,
 		execute,
 	} = useLazyAsyncData(
-		'useGas',
+		'features.esp.useGas',
 		async () => {
 			try {
-				const { data: fetchedGas } = await GasService.getGasDensity();
+				const res = await GasService.postEspGasRecordToDb();
 
-				gasStore.addGasMeasurement(Math.floor(fetchedGas));
+				if (res == null) return null;
 
-				return Math.floor(fetchedGas);
+				const { data: gasRecord } = res;
+
+				return gasRecord;
 			} catch (err) {
 				console.error(err);
 
@@ -46,5 +46,5 @@ export default function () {
 		}
 	});
 
-	return { lastGas, isLoading };
+	return { postedGasFromEsp, isLoading, postGasFromEsp: execute };
 }

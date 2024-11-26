@@ -11,12 +11,12 @@ export default function () {
 		status,
 		execute,
 	} = useLazyAsyncData(
-		'useEsp',
+		'features.esp.useEsp',
 		async () => {
 			try {
-				const { data } = await EspService.checkEspState();
+				const res = await EspService.checkEspState();
 
-				return data;
+				return res?.data;
 			} catch (err) {
 				console.error(err);
 

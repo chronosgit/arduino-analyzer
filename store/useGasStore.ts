@@ -1,32 +1,41 @@
+import type IGas from '~/interfaces/features/gas/IGas';
+
 export const useGasStore = defineStore('gasStore', () => {
-	const gas = ref<number[]>([]);
+	const gas = ref<IGas[]>([]);
 	const numOfDangerMeasurements = ref(0);
 	const numOfModerateMeasurements = ref(0);
 
-	const dangerGasThreshold = 600;
+	const addGas = (gasRecords: IGas[]) => {
+		if (!Array.isArray(gasRecords)) return;
 
-	const addGasMeasurement = (gasMeasurement: number) => {
-		if (typeof gasMeasurement !== 'number' || Number.isNaN(gasMeasurement)) {
-			return;
-		}
-
-		if (gasMeasurement > dangerGasThreshold) numOfDangerMeasurements.value++;
-		else numOfModerateMeasurements.value++;
-
-		gas.value.push(gasMeasurement);
+		gas.value = gasRecords;
 	};
 
-	const clearGasValue = () => {
+	const clearGas = () => {
 		gas.value = [];
 		numOfDangerMeasurements.value = 0;
+		numOfModerateMeasurements.value = 0;
+	};
+
+	const updateMeasurementCounts = (
+		newNumOfModerateMeasurements: number,
+		newNumOfDangerMeasurements: number,
+	) => {
+		if (typeof newNumOfDangerMeasurements === 'number') {
+			numOfDangerMeasurements.value = newNumOfDangerMeasurements;
+		}
+
+		if (typeof newNumOfModerateMeasurements === 'number') {
+			numOfModerateMeasurements.value = newNumOfModerateMeasurements;
+		}
 	};
 
 	return {
 		gas,
 		numOfDangerMeasurements,
 		numOfModerateMeasurements,
-		dangerGasThreshold,
-		addGasMeasurement,
-		clearGasValue,
+		addGas,
+		clearGas,
+		updateMeasurementCounts,
 	};
 });
