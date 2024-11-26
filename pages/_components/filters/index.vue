@@ -6,15 +6,15 @@
 </script>
 
 <template>
-	<div class="flex gap-8">
+	<div class="flex gap-2">
 		<LazyClientOnly>
 			<IconFilter
-				class="cursor-pointer mt-1 scale-125 flex justify-center items-center dark:text-white"
+				class="cursor-pointer scale-125 flex justify-center items-center dark:text-white"
 				@click="clearGasOptions"
 			/>
 		</LazyClientOnly>
 
-		<div class="bg-blue-50">
+		<div class="">
 			<GasFilters />
 		</div>
 	</div>

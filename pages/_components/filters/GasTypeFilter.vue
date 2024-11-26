@@ -17,17 +17,23 @@
 </script>
 
 <template>
-	<select
-		:value="gasFilterByType"
-		class="bg-zinc-200 p-1"
-		@change="onSelectChange($event)"
-	>
-		<option disabled>
-			{{ $t('pages./.filters.gas.filter-by-name-option-disabled') }}
-		</option>
+	<div class="flex gap-2 items-center">
+		<p class="dark:text-white">
+			{{ $t('pages./.filters.gas.filter-by-name-option-disabled') }}:
+		</p>
 
-		<option v-for="(t, i) in constants['gasTypes']" :key="i" :value="t">
-			{{ $t(`dictionary.${t}`) }}
-		</option>
-	</select>
+		<select
+			:value="gasFilterByType"
+			class="bg-zinc-200"
+			@change="onSelectChange($event)"
+		>
+			<option disabled>
+				{{ $t('pages./.filters.gas.filter-by-name-option-disabled') }}
+			</option>
+
+			<option v-for="(t, i) in constants['gasTypes']" :key="i" :value="t">
+				{{ $t(`dictionary.${t}`) }}
+			</option>
+		</select>
+	</div>
 </template>
