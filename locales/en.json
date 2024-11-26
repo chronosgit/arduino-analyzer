@@ -26,6 +26,7 @@
 				"no-data": "No data is yet available from the temperature sensor",
 				"line-chart": "Temperature in °C",
 				"pie-chart": {
+					"404": "There isn't enough data for a pie chart",
 					"cold": "Cold",
 					"warm": "Warm",
 					"hot": "Hot"
