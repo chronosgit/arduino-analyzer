@@ -7,6 +7,9 @@ export default function () {
 	const curSessionStore = useCurSessionStore();
 	const temperatureStore = useTemperatureStore();
 
+	const offset = ref(0);
+	const limit = ref(50);
+
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	const {
@@ -17,7 +20,10 @@ export default function () {
 		'features.temperature.useTemperature',
 		async () => {
 			try {
-				const res = await TemperatureService.getTemperatureRecordsFromDb();
+				const res = await TemperatureService.getTemperatureRecordsFromDb(
+					offset.value,
+					limit.value,
+				);
 
 				if (res == null) return null;
 

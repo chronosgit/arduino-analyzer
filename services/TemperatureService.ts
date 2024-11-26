@@ -3,8 +3,10 @@ import type IServerApiResponse from '~/interfaces/IServerApiResponse';
 
 // eslint-disable-next-line
 class TemperatureService {
-	static async getTemperatureRecordsFromDb() {
-		return $fetch<IServerApiResponse<ITemperature[]>>('/api/temperature');
+	static async getTemperatureRecordsFromDb(offset?: number, limit?: number) {
+		return $fetch<IServerApiResponse<ITemperature[]>>('/api/temperature', {
+			params: { offset, limit },
+		});
 	}
 
 	static async postEspTemperatureRecordToDb() {
