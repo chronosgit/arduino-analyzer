@@ -16,6 +16,7 @@
 				"no-data": "No gas is yet available from the gas sensor",
 				"line-chart": "Gas density",
 				"pie-chart": {
+					"404": "There isn't enough data for a pie chart",
 					"danger": "Danger",
 					"moderate": "Moderate"
 				}
