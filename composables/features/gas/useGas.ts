@@ -20,6 +20,7 @@ export default function () {
 				const res = await GasService.getGasRecordsFromDb(
 					gasStore.filterOffset,
 					gasStore.filterLimit,
+					gasStore.filterByType.filter((f) => f.isSelected).map((f) => f.name),
 				);
 				if (res?.data == null) return null;
 

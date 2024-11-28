@@ -1,9 +1,20 @@
 <script setup lang="ts">
+	import MultiSelect from '~/components/shared/MultiSelect.vue';
 	import { useGasStore } from '~/store/useGasStore';
+	import type IGasFilterState from '~/interfaces/features/gas/IGasFilterState';
+
+	const { t } = useI18n();
+
+	const emit = defineEmits<{ (e: 'on-filter-apply'): void }>();
 
 	const gasStore = useGasStore();
 
-	const emit = defineEmits<{ (e: 'on-filter-apply'): void }>();
+	const gasFilterByTypeOptions = computed<IGasFilterState[]>(() =>
+		gasStore.filterByType.map((tp) => ({
+			...tp,
+			label: t(`dictionary.${tp.name}`, 'Gas type'),
+		})),
+	);
 
 	const onFilterChange = (e: Event) => {
 		if (!e) return;
@@ -15,7 +26,7 @@
 		if (!type || !['type', 'offset', 'limit'].includes(type)) return;
 
 		if (type === 'type') {
-			gasStore.onFilterByTypeChange(e);
+			gasStore.toggleFilterByType(e);
 		} else if (type === 'limit') {
 			gasStore.onFilterLimitChange(e);
 		} else if (type === 'offset') {
@@ -31,25 +42,10 @@
 		class="dark:text-white bg-zinc-300 space-y-2 dark:bg-zinc-700 py-2 px-4 rounded-sm"
 	>
 		<!-- Filter by gas type -->
-		<div class="flex justify-between items-center gap-1">
-			<p>{{ $t('comps.features.gas.filters.by-type', 'By type:') }}:</p>
+		<MultiSelect :options="gasFilterByTypeOptions" />
 
-			<select
-				data-type="type"
-				class="bg-zinc-100 dark:bg-zinc-900"
-				@change="onFilterChange($event)"
-			>
-				<option disabled selected>
-					{{ $t('comps.features.gas.filters.type-option-disabled') }}
-				</option>
-
-				<option v-for="t in constants['gasTypes']" :key="t" :value="t">
-					{{ $t(`dictionary.${t}`) }}
-				</option>
-			</select>
-		</div>
-
-		<!-- Filter by offset -->
+		<!-- Pagination -->
+		<!-- Offset -->
 		<div class="flex justify-between items-center gap-1">
 			<p>{{ $t('comps.features.gas.filters.offset', 'Offset:') }}:</p>
 
@@ -67,7 +63,7 @@
 			>
 		</div>
 
-		<!-- Filter by limit -->
+		<!-- Limit -->
 		<div class="flex justify-between items-center gap-1">
 			<p>{{ $t('comps.features.gas.filters.limit', 'Limit:') }}:</p>
 

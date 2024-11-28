@@ -1,9 +1,15 @@
 import type IGas from '~/interfaces/features/gas/IGas';
+import type { TGasType } from '~/interfaces/features/gas/TGasType';
 import type IServerApiResponse from '~/interfaces/IServerApiResponse';
 
 // eslint-disable-next-line
 class GasService {
-	static async getGasRecordsFromDb(offset?: number, limit?: number) {
+	// eg. gasTypes = 'methane.hydrogen.lcg'
+	static async getGasRecordsFromDb(
+		offset?: number,
+		limit?: number,
+		gasTypes?: TGasType[],
+	) {
 		return $fetch<
 			IServerApiResponse<{
 				gas: IGas[];
@@ -12,7 +18,7 @@ class GasService {
 			}>
 		>('/api/gas', {
 			method: 'GET',
-			params: { offset, limit },
+			params: { offset, limit, types: gasTypes },
 		});
 	}
 

@@ -1,4 +1,5 @@
 import type IGas from '~/interfaces/features/gas/IGas';
+import type IGasFilterState from '~/interfaces/features/gas/IGasFilterState';
 import type { TGasType } from '~/interfaces/features/gas/TGasType';
 
 export const useGasStore = defineStore('gasStore', () => {
@@ -6,25 +7,34 @@ export const useGasStore = defineStore('gasStore', () => {
 	const numOfDangerMeasurements = ref(0);
 	const numOfModerateMeasurements = ref(0);
 
-	const defaultFilterByType = null;
+	const defaultFilterByType = constants['gasTypes'].map<IGasFilterState>(
+		(t) => ({ name: t, isSelected: true }),
+	);
 	const defaultOffset = 0;
 	const defaultLimit = 50;
-	const filterByType = ref<TGasType | null>(defaultFilterByType);
+
+	const filterByType = ref<IGasFilterState[]>(defaultFilterByType);
 	const filterOffset = ref(defaultOffset);
 	const filterLimit = ref(defaultLimit);
 
-	const onFilterByTypeChange = (e: Event) => {
+	const toggleFilterByType = (e: Event) => {
 		if (!e) return;
 
-		const input = e.target as HTMLSelectElement | null;
-		if (!input || input.value == null) return;
+		const target = e.currentTarget as HTMLElement | null;
+		if (!target) return;
 
-		const newType = input.value;
-		if (!newType) return;
+		const gasType = target.dataset['type'];
+		if (
+			gasType == null ||
+			!constants['gasTypes'].includes(gasType as TGasType)
+		) {
+			return;
+		}
 
-		if (!constants['gasTypes'].includes(newType)) return;
+		const toggledFilter = filterByType.value.find((f) => f.name === gasType);
+		if (toggledFilter == null) return;
 
-		filterByType.value = newType as TGasType;
+		toggledFilter.isSelected = !toggledFilter.isSelected;
 	};
 
 	const onFilterOffsetChange = (e: Event) => {
@@ -94,7 +104,7 @@ export const useGasStore = defineStore('gasStore', () => {
 		filterByType,
 		filterOffset,
 		filterLimit,
-		onFilterByTypeChange,
+		toggleFilterByType,
 		onFilterOffsetChange,
 		onFilterLimitChange,
 		addGas,
