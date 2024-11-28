@@ -11,13 +11,6 @@
 					"rest": "Connection state is unknown"
 				}
 			},
-			"filters": {
-				"gas": {
-					"filter-by-name-option-disabled": "Gas type",
-					"gas-offset": "Gas offset",
-					"gas-limit": "Gas limit"
-				}
-			},
 			"gas": {
 				"title": "Gas density",
 				"no-data": "No gas is yet available from the gas sensor",
@@ -62,6 +55,16 @@
 					"color-theme": "Toggle color theme",
 					"localization": "Change language",
 					"logout": "Log out"
+				}
+			}
+		},
+		"features": {
+			"gas": {
+				"filters": {
+					"by-type": "By type",
+					"type-option-disabled": "Gas type",
+					"offset": "Gas offset",
+					"limit": "Gas limit"
 				}
 			}
 		}
