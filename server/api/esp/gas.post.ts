@@ -1,7 +1,10 @@
 import GasModel from '~/server/models/GasModel';
+import checkForDbConnection from '~/server/utils/checkForDbConnection';
 
 export default defineEventHandler(async () => {
 	try {
+		checkForDbConnection();
+
 		// Get gas value from ESP
 		// WARN: currently a mock logic
 		const randomGas = Math.random() * 1023;
