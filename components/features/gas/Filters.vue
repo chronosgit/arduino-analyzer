@@ -2,6 +2,28 @@
 	import { useGasStore } from '~/store/useGasStore';
 
 	const gasStore = useGasStore();
+
+	const emit = defineEmits<{ (e: 'on-filter-apply'): void }>();
+
+	const onFilterChange = (e: Event) => {
+		if (!e) return;
+
+		const target = e.target as HTMLElement | null;
+		if (!target) return;
+
+		const type = target.dataset['type'] as 'type' | 'offset' | 'limit';
+		if (!type || !['type', 'offset', 'limit'].includes(type)) return;
+
+		if (type === 'type') {
+			gasStore.onFilterByTypeChange(e);
+		} else if (type === 'limit') {
+			gasStore.onFilterLimitChange(e);
+		} else if (type === 'offset') {
+			gasStore.onFilterOffsetChange(e);
+		}
+
+		emit('on-filter-apply');
+	};
 </script>
 
 <template>
@@ -13,8 +35,9 @@
 			<p>{{ $t('comps.features.gas.filters.by-type', 'By type:') }}:</p>
 
 			<select
+				data-type="type"
 				class="bg-zinc-100 dark:bg-zinc-900"
-				@change="gasStore.onFilterByTypeChange($event)"
+				@change="onFilterChange($event)"
 			>
 				<option disabled selected>
 					{{ $t('comps.features.gas.filters.type-option-disabled') }}
@@ -33,11 +56,14 @@
 			<label for="input-offset" class="sr-only">Skip n values as offset</label>
 			<input
 				id="input-offset"
+				data-type="offset"
+				name="offset"
 				:value="gasStore.filterOffset"
 				type="number"
 				:placeholder="gasStore.defaultOffset.toString()"
 				class="px-1"
-				@change="gasStore.onFilterOffsetChange($event)"
+				min="0"
+				@change="onFilterChange($event)"
 			>
 		</div>
 
@@ -48,11 +74,14 @@
 			<label for="input-limit" class="sr-only">Set limit</label>
 			<input
 				id="input-limit"
+				name="limit"
+				data-type="limit"
 				:value="gasStore.filterLimit"
 				type="number"
 				:placeholder="gasStore.defaultLimit.toString()"
 				class="px-1"
-				@change="gasStore.onFilterLimitChange"
+				min="1"
+				@change="onFilterChange($event)"
 			>
 		</div>
 	</div>

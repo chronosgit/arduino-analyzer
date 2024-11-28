@@ -20,12 +20,7 @@
 	useEspGas();
 	useEspTemperature();
 
-	const {
-		offset: gasOffset,
-		limit: gasLimit,
-		filterByType: gasFilterByType,
-		clearGasOptions,
-	} = useGas();
+	const { fetchGasFromDb } = useGas();
 	useTemperature();
 
 	// Gas filters clickaway
@@ -37,10 +32,7 @@
 	useClickawayClient('filters.gas', closeGasFilters);
 
 	provide('isEspAlive', isEspAlive);
-	provide('gasOffset', gasOffset);
-	provide('gasLimit', gasLimit);
-	provide('gasFilterByType', gasFilterByType);
-	provide('clearGasOptions', clearGasOptions);
+	provide('fetchGasFromDb', fetchGasFromDb);
 </script>
 
 <template>
@@ -65,6 +57,7 @@
 							v-if="isGasFiltersVisible"
 							ref="filters.gas"
 							class="shadow-md z-50 absolute right-0 top-0 translate-y-8"
+							@on-filter-apply="fetchGasFromDb"
 						/>
 					</ClientOnly>
 				</div>
@@ -88,6 +81,7 @@
 
 				<TemperaturePieChart />
 			</section>
+
 			<p v-else class="font-bold dark:text-white text-lg text-center">
 				{{ $t('pages./.temperature.no-data') }}
 			</p>
