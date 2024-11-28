@@ -3,7 +3,7 @@ export const useCurSessionStore = defineStore('curSessionStore', () => {
 
 	const espIpAddress = ref<string | null>(null);
 
-	const isSessionRdy = ref(false);
+	const isSessionRdy = ref(true);
 	const isEspAlive = ref<boolean | null>(null);
 
 	const startSession = (ip?: string) => {

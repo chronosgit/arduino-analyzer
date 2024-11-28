@@ -1,6 +1,7 @@
 <script setup lang="ts">
+	import { IconSettings } from '~/components/ui/icons';
+	import GasFilters from '~/components/features/gas/Filters.vue';
 	import EspStateHeading from './_components/EspStateHeading.vue';
-	import Filters from './_components/filters/index.vue';
 	import GasLineChart from './_components/gas/LineChart.vue';
 	import GasPieChart from './_components/gas/PieChart.vue';
 	import TemperatureLineChart from './_components/temperature/LineChart.vue';
@@ -19,40 +20,53 @@
 	useEspGas();
 	useEspTemperature();
 
-	const {
-		offset: gasOffset,
-		limit: gasLimit,
-		filterByType: gasFilterByType,
-		clearGasOptions,
-	} = useGas();
+	const { fetchGasFromDb } = useGas();
 	useTemperature();
 
+	// Gas filters clickaway
+	const {
+		val: isGasFiltersVisible,
+		activate: openGasFilters,
+		disactivate: closeGasFilters,
+	} = useToggle();
+	useClickawayClient('filters.gas', closeGasFilters);
+
 	provide('isEspAlive', isEspAlive);
-	provide('gasOffset', gasOffset);
-	provide('gasLimit', gasLimit);
-	provide('gasFilterByType', gasFilterByType);
-	provide('clearGasOptions', clearGasOptions);
+	provide('fetchGasFromDb', fetchGasFromDb);
 </script>
 
 <template>
 	<div class="px-2 pt-8 min-h-screen dark:bg-zinc-900">
 		<div class="container pb-12 mx-auto space-y-20">
-			<div class="space-y-4">
-				<EspStateHeading />
-
-				<Filters />
-			</div>
+			<EspStateHeading />
 
 			<!-- Gas density section -->
 			<section v-if="gasStore.gas.length" class="space-y-10">
-				<h2 class="text-center font-bold text-2xl dark:text-white">
-					{{ $t('pages./.gas.title') }}
-				</h2>
+				<div class="relative flex justify-between items-center gap-1">
+					<h2 class="text-center font-bold text-2xl dark:text-white">
+						{{ $t('pages./.gas.title') }}
+					</h2>
+
+					<ClientOnly>
+						<IconSettings
+							class="scale-125 cursor-pointer dark:text-white"
+							@click="openGasFilters"
+						/>
+
+						<GasFilters
+							v-if="isGasFiltersVisible"
+							ref="filters.gas"
+							class="shadow-md z-50 absolute right-0 top-0 translate-y-8"
+							@on-filter-apply="fetchGasFromDb"
+						/>
+					</ClientOnly>
+				</div>
 
 				<GasLineChart />
 
 				<GasPieChart />
 			</section>
+
 			<p v-else class="font-bold dark:text-white text-lg text-center">
 				{{ $t('pages./.gas.no-data') }}
 			</p>
@@ -67,6 +81,7 @@
 
 				<TemperaturePieChart />
 			</section>
+
 			<p v-else class="font-bold dark:text-white text-lg text-center">
 				{{ $t('pages./.temperature.no-data') }}
 			</p>

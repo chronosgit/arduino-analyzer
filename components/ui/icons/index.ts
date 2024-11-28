@@ -11,3 +11,4 @@ export { default as IconError } from './Error.vue';
 export { default as IconAwesome } from './Awesome.vue';
 export { default as IconInfo } from './Info.vue';
 export { default as IconFilter } from './Filter.vue';
+export { default as IconSettings } from './Settings.vue';
