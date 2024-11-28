@@ -49,7 +49,7 @@
 
 					<ClientOnly>
 						<IconSettings
-							class="scale-125 cursor-pointer dark:text-white"
+							class="hover:text-indigo-500 transition-colors scale-125 cursor-pointer dark:text-white"
 							@click="openGasFilters"
 						/>
 
@@ -67,9 +67,25 @@
 				<GasPieChart />
 			</section>
 
-			<p v-else class="font-bold dark:text-white text-lg text-center">
-				{{ $t('pages./.gas.no-data') }}
-			</p>
+			<div v-else class="relative flex gap-1 items-center justify-between">
+				<p class="font-bold dark:text-white text-lg text-center">
+					{{ $t('pages./.gas.no-data') }}
+				</p>
+
+				<ClientOnly>
+					<IconSettings
+						class="hover:text-indigo-400 transition-colors scale-125 cursor-pointer dark:text-white"
+						@click="openGasFilters"
+					/>
+
+					<GasFilters
+						v-if="isGasFiltersVisible"
+						ref="filters.gas"
+						class="shadow-md z-50 absolute right-0 top-0 translate-y-8"
+						@on-filter-apply="fetchGasFromDb"
+					/>
+				</ClientOnly>
+			</div>
 
 			<!-- Temperature in °C section -->
 			<section v-if="temperatureStore.temperature.length" class="space-y-10">
