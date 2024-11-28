@@ -1,7 +1,10 @@
 import TemperatureModel from '~/server/models/TemperatureModel';
+import checkForDbConnection from '~/server/utils/checkForDbConnection';
 
 export default defineEventHandler(async () => {
 	try {
+		checkForDbConnection();
+
 		// Get temperature from ESP
 		// WARN: currently a mock logic
 		const randomCelcius = getRandomNumBetween(-50, 125);

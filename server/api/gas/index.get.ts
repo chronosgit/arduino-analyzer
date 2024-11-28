@@ -1,8 +1,11 @@
 import GasModel from '~/server/models/GasModel';
+import checkForDbConnection from '~/server/utils/checkForDbConnection';
 import constants from '~/utils/constants';
 
 export default defineEventHandler(async (e) => {
 	try {
+		checkForDbConnection();
+
 		const { offset: qOffset, limit: qLimit } = getQuery(e);
 
 		const offset = qOffset ? parseInt(qOffset.toString()) : 0;
