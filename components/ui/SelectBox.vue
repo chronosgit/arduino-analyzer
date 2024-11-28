@@ -1,7 +1,5 @@
 <script setup lang="ts">
 	const props = defineProps<{ isSelected: boolean }>();
-
-	watchEffect(() => console.log(props.isSelected));
 </script>
 
 <template>
