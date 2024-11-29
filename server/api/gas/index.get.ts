@@ -10,7 +10,7 @@ export default defineEventHandler(async (e) => {
 		const { offset: qOffset, limit: qLimit, types: qTypes } = getQuery(e);
 
 		const offset = qOffset ? parseInt(qOffset.toString()) : 0;
-		const limit = qLimit ? parseInt(qLimit.toString()) : 50;
+		const limit = qLimit ? parseInt(qLimit.toString()) || 50 : 50;
 
 		let gasTypes: TGasType[] = [];
 

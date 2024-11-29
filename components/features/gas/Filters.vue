@@ -35,6 +35,29 @@
 
 		emit('on-filter-apply');
 	};
+
+	const onNumberInput = (e: Event, min: number) => {
+		if (e == null || min == null) {
+			e?.preventDefault();
+			return;
+		}
+
+		const input = e.target as HTMLInputElement;
+		if (input == null) {
+			e?.preventDefault();
+			return;
+		}
+
+		const newValue = parseInt(input.value);
+		if (Number.isNaN(newValue)) {
+			e?.preventDefault();
+			return;
+		}
+
+		if (newValue < min) {
+			e?.preventDefault();
+		}
+	};
 </script>
 
 <template>
@@ -50,6 +73,7 @@
 			<p>{{ $t('comps.features.gas.filters.offset', 'Offset:') }}:</p>
 
 			<label for="input-offset" class="sr-only">Skip n values as offset</label>
+			<!-- eslint-disable-next-line vue/html-self-closing -->
 			<input
 				id="input-offset"
 				data-type="offset"
@@ -59,8 +83,9 @@
 				:placeholder="gasStore.defaultOffset.toString()"
 				class="px-1 text-black"
 				min="0"
+				@input="onNumberInput($event, 0)"
 				@change="onFilterChange($event)"
-			>
+			/>
 		</div>
 
 		<!-- Limit -->
@@ -68,6 +93,7 @@
 			<p>{{ $t('comps.features.gas.filters.limit', 'Limit:') }}:</p>
 
 			<label for="input-limit" class="sr-only">Set limit</label>
+			<!-- eslint-disable-next-line vue/html-self-closing -->
 			<input
 				id="input-limit"
 				name="limit"
@@ -77,8 +103,9 @@
 				:placeholder="gasStore.defaultLimit.toString()"
 				class="px-1 text-black"
 				min="1"
+				@input="onNumberInput($event, 1)"
 				@change="onFilterChange($event)"
-			>
+			/>
 		</div>
 	</div>
 </template>
