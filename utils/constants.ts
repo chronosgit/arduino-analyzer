@@ -1,4 +1,5 @@
 import type { TGasType } from '~/interfaces/features/gas/TGasType';
+import type { TTemperatureType } from '~/interfaces/features/temperature/TTemperatureType';
 
 export default {
 	moderateGasThreshhold: 600,
@@ -13,4 +14,5 @@ export default {
 		'co',
 		'lpg',
 	],
+	temperatureTypes: <TTemperatureType[]>['celcius', 'fahrenheit'],
 };

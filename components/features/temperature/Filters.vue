@@ -1,10 +1,10 @@
 <script setup lang="ts">
-	import FilterByTypeMultiSelect from '~/components/features/gas/FilterByTypeMultiSelect.vue';
-	import { useGasStore } from '~/store/useGasStore';
+	import { useTemperatureStore } from '~/store/useTemperatureStore';
+	import FilterByTypeMultiSelect from '~/components/features/temperature/FilterByTypeMultiSelect.vue';
+
+	const temperatureStore = useTemperatureStore();
 
 	const emit = defineEmits<{ (e: 'on-filter-apply'): void }>();
-
-	const gasStore = useGasStore();
 
 	const onFilterChange = (e: Event) => {
 		const target = getEventTarget(e, 'target');
@@ -14,12 +14,12 @@
 
 		switch (type) {
 			case 'limit':
-				gasStore.onFilterLimitChange(e);
+				temperatureStore.onFilterLimitChange(e);
 
 				emit('on-filter-apply');
 				break;
 			case 'offset':
-				gasStore.onFilterOffsetChange(e);
+				temperatureStore.onFilterOffsetChange(e);
 
 				emit('on-filter-apply');
 				break;
@@ -33,7 +33,7 @@
 	<div
 		class="dark:text-white bg-zinc-300 space-y-2 dark:bg-zinc-700 py-2 px-4 rounded-sm"
 	>
-		<!-- Filter by gas type -->
+		<!-- Filter by temperature type -->
 		<FilterByTypeMultiSelect />
 
 		<!-- Pagination -->
@@ -47,9 +47,9 @@
 				id="input-offset"
 				data-type="offset"
 				name="offset"
-				:value="gasStore.filterOffset"
+				:value="temperatureStore.filterOffset"
 				type="number"
-				:placeholder="gasStore.defaultOffset.toString()"
+				:placeholder="temperatureStore.defaultOffset.toString()"
 				class="px-1 text-black"
 				min="0"
 				@change="onFilterChange($event)"
@@ -66,9 +66,9 @@
 				id="input-limit"
 				name="limit"
 				data-type="limit"
-				:value="gasStore.filterLimit"
+				:value="temperatureStore.filterLimit"
 				type="number"
-				:placeholder="gasStore.defaultLimit.toString()"
+				:placeholder="temperatureStore.defaultLimit.toString()"
 				class="px-1 text-black"
 				min="1"
 				@change="onFilterChange($event)"

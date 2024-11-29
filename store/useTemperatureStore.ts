@@ -1,4 +1,6 @@
 import type ITemperature from '~/interfaces/features/temperature/ITemperature';
+import type { TTemperatureType } from '~/interfaces/features/temperature/TTemperatureType';
+import type ISelectOption from '~/interfaces/ISelectOption';
 
 export const useTemperatureStore = defineStore('temperatureStore', () => {
 	const temperature = ref<ITemperature[]>([]);
@@ -6,6 +8,44 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 	const numOfColdTemperatureMeasurements = ref(0);
 	const numOfWarmTemperatureMeasurements = ref(0);
 	const numOfHotTemperatureMeasurements = ref(0);
+
+	const defaultFilterByType = constants['temperatureTypes'].map<
+		ISelectOption<TTemperatureType>
+	>((t) => ({ name: t, isSelected: true }));
+	const defaultOffset = 0;
+	const defaultLimit = 50;
+
+	const filterByType =
+		ref<ISelectOption<TTemperatureType>[]>(defaultFilterByType);
+	const filterOffset = ref(defaultOffset);
+	const filterLimit = ref(defaultLimit);
+
+	const toggleFilterByType = (toggledFilterName: TTemperatureType) => {
+		const toggledFilter = filterByType.value.find(
+			(f) => f.name === toggledFilterName,
+		);
+		if (toggledFilter == null) return;
+
+		toggledFilter.isSelected = !toggledFilter.isSelected;
+	};
+
+	const onFilterOffsetChange = (e: Event) => {
+		const target = getEventTarget(e, 'target');
+		const newOffset = parseInt(getEventTargetValue(target));
+
+		if (Number.isNaN(newOffset) || newOffset < 0) return;
+
+		filterOffset.value = newOffset;
+	};
+
+	const onFilterLimitChange = (e: Event) => {
+		const target = getEventTarget(e, 'target');
+		const newLimit = parseInt(getEventTargetValue(target));
+
+		if (Number.isNaN(newLimit) || newLimit < 0) return;
+
+		filterLimit.value = newLimit;
+	};
 
 	const addTemperature = (temp: ITemperature[]) => {
 		if (!Array.isArray(temp)) return;
@@ -40,9 +80,23 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 
 	return {
 		temperature,
+
 		numOfColdTemperatureMeasurements,
 		numOfWarmTemperatureMeasurements,
 		numOfHotTemperatureMeasurements,
+
+		defaultFilterByType,
+		defaultLimit,
+		defaultOffset,
+
+		filterByType,
+		filterLimit,
+		filterOffset,
+
+		toggleFilterByType,
+		onFilterOffsetChange,
+		onFilterLimitChange,
+
 		addTemperature,
 		clearTemperature,
 		updatedMeasurementCounts,

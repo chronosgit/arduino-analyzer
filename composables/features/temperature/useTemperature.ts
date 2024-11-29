@@ -7,11 +7,6 @@ export default function () {
 	const curSessionStore = useCurSessionStore();
 	const temperatureStore = useTemperatureStore();
 
-	const offset = ref(0);
-	const limit = ref(50);
-
-	const timer = ref<ReturnType<typeof setInterval> | null>(null);
-
 	const {
 		data: lastTemperature,
 		status,
@@ -21,10 +16,9 @@ export default function () {
 		async () => {
 			try {
 				const res = await TemperatureService.getTemperatureRecordsFromDb(
-					offset.value,
-					limit.value,
+					temperatureStore.filterOffset,
+					temperatureStore.filterLimit,
 				);
-
 				if (res?.data == null) return null;
 
 				const {
@@ -65,19 +59,5 @@ export default function () {
 
 	const isLoading = computed(() => status.value === 'pending');
 
-	onMounted(() => {
-		timer.value = setInterval(() => {
-			if (!curSessionStore.isSessionRdy) return;
-
-			execute();
-		}, 3000);
-	});
-
-	onUnmounted(() => {
-		if (timer.value) {
-			clearInterval(timer.value);
-		}
-	});
-
-	return { lastTemperature, isLoading };
+	return { lastTemperature, isLoading, fetchTemperatureFromDb: execute };
 }

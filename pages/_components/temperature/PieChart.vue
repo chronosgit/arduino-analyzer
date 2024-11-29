@@ -28,24 +28,17 @@
 			},
 		],
 	}));
-
-	const isDataExist = computed(
-		() =>
-			temperatureStore.numOfColdTemperatureMeasurements &&
-			temperatureStore.numOfHotTemperatureMeasurements &&
-			temperatureStore.numOfWarmTemperatureMeasurements,
-	);
 </script>
 
 <template>
-	<PieChart v-if="isDataExist" :chart-data="data" />
+	<PieChart :chart-data="data" />
 
-	<p v-else class="text-center">
+	<!-- <p class="text-center dark:text-white">
 		{{
 			$t(
 				'pages./.temperature.pie-chart.404',
 				"There isn't enough data for a pie chart",
 			)
 		}}
-	</p>
+	</p> -->
 </template>
