@@ -22,19 +22,14 @@
 			},
 		],
 	}));
-
-	const isDataExist = computed(
-		() =>
-			gasStore.numOfDangerMeasurements && gasStore.numOfModerateMeasurements,
-	);
 </script>
 
 <template>
-	<PieChart v-if="isDataExist" :chart-data="data" />
+	<PieChart :chart-data="data" />
 
-	<p v-else class="text-center">
+	<!-- <p v-else class="text-center dark:text-white">
 		{{
 			$t('pages./.gas.pie-chart.404', "There isn't enough data for a pie chart")
 		}}
-	</p>
+	</p> -->
 </template>

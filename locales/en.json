@@ -73,6 +73,14 @@
 					"offset": "Gas offset",
 					"limit": "Gas limit"
 				}
+			},
+			"temperature": {
+				"filters": {
+					"by-type": "By type",
+					"type-option-disabled": "Gas type",
+					"offset": "Gas offset",
+					"limit": "Gas limit"
+				}
 			}
 		}
 	},
@@ -83,6 +91,8 @@
 		"butane": "Butane",
 		"ethanol": "Ethanol",
 		"co": "Carbon Monoxide",
-		"lpg": "Liquefied Petroleum Gas"
+		"lpg": "Liquefied Petroleum Gas",
+		"celcius": "Celcius",
+		"fahrenheit": "Fahrenheit"
 	}
 }
