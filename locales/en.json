@@ -11,6 +11,13 @@
 					"rest": "Connection state is unknown"
 				}
 			},
+			"db-state-heading": {
+				"msg": {
+					"true": "Connected to database",
+					"false": "No connection to database",
+					"rest": "Connection state to database is unknown"
+				}
+			},
 			"gas": {
 				"title": "Gas density",
 				"no-data": "No gas is yet available from the gas sensor",
