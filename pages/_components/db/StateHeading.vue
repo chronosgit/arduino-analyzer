@@ -3,7 +3,8 @@
 
 	const { t } = useI18n();
 
-	const isDbConnected = inject<Ref<boolean | null>>('isDbConnected', ref(null));
+	const { isDbConnected, fetchDbConnectionStatus } = useDb();
+	usePeriodicFunction(fetchDbConnectionStatus);
 
 	const headingMsg = computed(() => {
 		switch (isDbConnected.value) {
