@@ -16,16 +16,24 @@
 
 		fetchTemperatureFromDb();
 	}, 3000);
+
+	const sectionRef = useTemplateRef<HTMLElement>('section');
+	const graphTemplateRefs = computed(() => [sectionRef]);
 </script>
 
 <template>
-	<section v-if="temperatureStore.temperature.length" class="space-y-10">
+	<section
+		v-if="temperatureStore.temperature.length"
+		ref="section"
+		class="space-y-10"
+	>
 		<div class="relative flex justify-between items-center gap-1">
 			<h2 class="text-center font-bold text-2xl dark:text-white">
 				{{ $t('pages./.temperature.title') }}
 			</h2>
 
 			<DataOptions
+				:saveable-element-template-refs="graphTemplateRefs"
 				:is-fetching-from-db-on="isTemperatureFetchFromDbOn"
 				@pause="() => (isTemperatureFetchFromDbOn = false)"
 				@resume="() => (isTemperatureFetchFromDbOn = true)"
@@ -47,6 +55,7 @@
 		</p>
 
 		<DataOptions
+			:saveable-element-template-refs="graphTemplateRefs"
 			:is-fetching-from-db-on="isTemperatureFetchFromDbOn"
 			@pause="() => (isTemperatureFetchFromDbOn = false)"
 			@resume="() => (isTemperatureFetchFromDbOn = true)"
