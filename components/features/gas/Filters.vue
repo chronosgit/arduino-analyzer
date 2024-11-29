@@ -1,61 +1,30 @@
 <script setup lang="ts">
-	import MultiSelect from '~/components/shared/MultiSelect.vue';
+	import FilterByTypeMultiSelect from '~/components/features/gas/FilterByTypeMultiSelect.vue';
 	import { useGasStore } from '~/store/useGasStore';
-	import type IGasFilterState from '~/interfaces/features/gas/IGasFilterState';
-
-	const { t } = useI18n();
 
 	const emit = defineEmits<{ (e: 'on-filter-apply'): void }>();
 
 	const gasStore = useGasStore();
 
-	const gasFilterByTypeOptions = computed<IGasFilterState[]>(() =>
-		gasStore.filterByType.map((tp) => ({
-			...tp,
-			label: t(`dictionary.${tp.name}`, 'Gas type'),
-		})),
-	);
-
 	const onFilterChange = (e: Event) => {
-		if (!e) return;
+		const target = getEventTarget(e, 'target');
 
-		const target = e.target as HTMLElement | null;
-		if (!target) return;
+		const type = target.dataset['type'] as 'offset' | 'limit';
+		if (!type || !['offset', 'limit'].includes(type)) return;
 
-		const type = target.dataset['type'] as 'type' | 'offset' | 'limit';
-		if (!type || !['type', 'offset', 'limit'].includes(type)) return;
+		switch (type) {
+			case 'limit':
+				gasStore.onFilterLimitChange(e);
 
-		if (type === 'type') {
-			gasStore.toggleFilterByType(e);
-		} else if (type === 'limit') {
-			gasStore.onFilterLimitChange(e);
-		} else if (type === 'offset') {
-			gasStore.onFilterOffsetChange(e);
-		}
+				emit('on-filter-apply');
+				break;
+			case 'offset':
+				gasStore.onFilterOffsetChange(e);
 
-		emit('on-filter-apply');
-	};
-
-	const onNumberInput = (e: Event, min: number) => {
-		if (e == null || min == null) {
-			e?.preventDefault();
-			return;
-		}
-
-		const input = e.target as HTMLInputElement;
-		if (input == null) {
-			e?.preventDefault();
-			return;
-		}
-
-		const newValue = parseInt(input.value);
-		if (Number.isNaN(newValue)) {
-			e?.preventDefault();
-			return;
-		}
-
-		if (newValue < min) {
-			e?.preventDefault();
+				emit('on-filter-apply');
+				break;
+			default:
+				break;
 		}
 	};
 </script>
@@ -65,7 +34,7 @@
 		class="dark:text-white bg-zinc-300 space-y-2 dark:bg-zinc-700 py-2 px-4 rounded-sm"
 	>
 		<!-- Filter by gas type -->
-		<MultiSelect :options="gasFilterByTypeOptions" />
+		<FilterByTypeMultiSelect />
 
 		<!-- Pagination -->
 		<!-- Offset -->
@@ -83,7 +52,6 @@
 				:placeholder="gasStore.defaultOffset.toString()"
 				class="px-1 text-black"
 				min="0"
-				@input="onNumberInput($event, 0)"
 				@change="onFilterChange($event)"
 			/>
 		</div>
@@ -103,7 +71,6 @@
 				:placeholder="gasStore.defaultLimit.toString()"
 				class="px-1 text-black"
 				min="1"
-				@input="onNumberInput($event, 1)"
 				@change="onFilterChange($event)"
 			/>
 		</div>
