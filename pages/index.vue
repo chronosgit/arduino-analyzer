@@ -8,6 +8,7 @@
 	import TemperaturePieChart from './_components/temperature/PieChart.vue';
 	import { useGasStore } from '~/store/useGasStore';
 	import { useTemperatureStore } from '~/store/useTemperatureStore';
+	import DbStateHeading from './_components/DbStateHeading.vue';
 
 	const { t } = useI18n();
 
@@ -23,6 +24,10 @@
 	const { fetchGasFromDb } = useGas();
 	useTemperature();
 
+	// Checking DB connection state
+	const { isDbConnected, fetchDbConnectionStatus } = useDb();
+	usePeriodicFunction(fetchDbConnectionStatus);
+
 	// Gas filters clickaway
 	const {
 		val: isGasFiltersVisible,
@@ -32,13 +37,18 @@
 	useClickawayClient('filters.gas', closeGasFilters);
 
 	provide('isEspAlive', isEspAlive);
+	provide('isDbConnected', isDbConnected);
 	provide('fetchGasFromDb', fetchGasFromDb);
 </script>
 
 <template>
 	<div class="px-2 pt-8 min-h-screen dark:bg-zinc-900">
 		<div class="container pb-12 mx-auto space-y-20">
-			<EspStateHeading />
+			<div class="space-y-2">
+				<EspStateHeading />
+
+				<DbStateHeading />
+			</div>
 
 			<!-- Gas density section -->
 			<section v-if="gasStore.gas.length" class="space-y-10">

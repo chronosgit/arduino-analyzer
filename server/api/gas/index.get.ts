@@ -10,7 +10,7 @@ export default defineEventHandler(async (e) => {
 		const { offset: qOffset, limit: qLimit, types: qTypes } = getQuery(e);
 
 		const offset = qOffset ? parseInt(qOffset.toString()) : 0;
-		const limit = qLimit ? parseInt(qLimit.toString()) : 50;
+		const limit = qLimit ? parseInt(qLimit.toString()) || 50 : 50;
 
 		let gasTypes: TGasType[] = [];
 
@@ -25,12 +25,16 @@ export default defineEventHandler(async (e) => {
 			);
 		}
 
-		const gas = await GasModel.find({
-			type: { $in: gasTypes },
-		})
-			.sort({ timestamp: -1 })
-			.skip(offset)
-			.limit(limit);
+		const gas = (
+			await Promise.all(
+				gasTypes.map(async (type) => {
+					return GasModel.find({ type })
+						.sort({ timestamp: -1 })
+						.skip(offset)
+						.limit(limit);
+				}),
+			)
+		).flat();
 
 		let numOfModerateGas = 0;
 		let numOfDangerGas = 0;

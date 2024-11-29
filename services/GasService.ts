@@ -10,6 +10,11 @@ class GasService {
 		limit?: number,
 		gasTypes?: TGasType[],
 	) {
+		if (limit === 0) {
+			console.error('Limit minimum is 1');
+			return;
+		}
+
 		return $fetch<
 			IServerApiResponse<{
 				gas: IGas[];
