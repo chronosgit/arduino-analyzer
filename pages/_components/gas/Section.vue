@@ -1,20 +1,21 @@
 <script setup lang="ts">
 	import GasFilters from '~/components/features/gas/Filters.vue';
-	import { IconSettings } from '~/components/ui/icons';
 	import GasLineChart from './LineChart.vue';
 	import GasPieChart from './PieChart.vue';
+	import DataOptions from '../DataOptions.vue';
 	import { useGasStore } from '~/store/useGasStore';
 
 	const gasStore = useGasStore();
 
 	const { fetchGasFromDb } = useGas();
 
-	const {
-		val: isGasFiltersVisible,
-		activate: openGasFilters,
-		disactivate: closeGasFilters,
-	} = useToggle();
-	useClickawayClient('filters.gas', closeGasFilters);
+	// Turn on/off periodic fetch of gas
+	const isGasFetchFromDbOn = ref(true);
+	usePeriodicFunction(() => {
+		if (!isGasFetchFromDbOn.value) return;
+
+		fetchGasFromDb();
+	}, 3000);
 </script>
 
 <template>
@@ -24,19 +25,15 @@
 				{{ $t('pages./.gas.title') }}
 			</h2>
 
-			<ClientOnly>
-				<IconSettings
-					class="hover:text-indigo-500 transition-colors scale-125 cursor-pointer dark:text-white"
-					@click="openGasFilters"
-				/>
-
-				<GasFilters
-					v-if="isGasFiltersVisible"
-					ref="filters.gas"
-					class="shadow-md z-50 absolute right-0 top-0 translate-y-8"
-					@on-filter-apply="fetchGasFromDb"
-				/>
-			</ClientOnly>
+			<DataOptions
+				:is-fetching-from-db-on="isGasFetchFromDbOn"
+				@pause="() => (isGasFetchFromDbOn = false)"
+				@resume="() => (isGasFetchFromDbOn = true)"
+			>
+				<template #filters>
+					<GasFilters @on-filter-apply="fetchGasFromDb" />
+				</template>
+			</DataOptions>
 		</div>
 
 		<GasLineChart />
@@ -49,18 +46,14 @@
 			{{ $t('pages./.gas.no-data') }}
 		</p>
 
-		<ClientOnly>
-			<IconSettings
-				class="hover:text-indigo-400 transition-colors scale-125 cursor-pointer dark:text-white"
-				@click="openGasFilters"
-			/>
-
-			<GasFilters
-				v-if="isGasFiltersVisible"
-				ref="filters.gas"
-				class="shadow-md z-50 absolute right-0 top-0 translate-y-8"
-				@on-filter-apply="fetchGasFromDb"
-			/>
-		</ClientOnly>
+		<DataOptions
+			:is-fetching-from-db-on="isGasFetchFromDbOn"
+			@pause="() => (isGasFetchFromDbOn = false)"
+			@resume="() => (isGasFetchFromDbOn = true)"
+		>
+			<template #filters>
+				<GasFilters @on-filter-apply="fetchGasFromDb" />
+			</template>
+		</DataOptions>
 	</div>
 </template>

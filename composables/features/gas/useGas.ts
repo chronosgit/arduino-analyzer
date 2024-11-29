@@ -7,8 +7,6 @@ export default function () {
 	const curSessionStore = useCurSessionStore();
 	const gasStore = useGasStore();
 
-	const timer = ref<ReturnType<typeof setInterval> | null>(null);
-
 	const {
 		data: gas,
 		status,
@@ -49,20 +47,6 @@ export default function () {
 	);
 
 	const isLoading = computed(() => status.value === 'pending');
-
-	onMounted(() => {
-		timer.value = setInterval(() => {
-			if (!curSessionStore.isSessionRdy) return;
-
-			execute();
-		}, 3000);
-	});
-
-	onUnmounted(() => {
-		if (timer.value) {
-			clearInterval(timer.value);
-		}
-	});
 
 	return { gas, isLoading, fetchGasFromDb: execute };
 }

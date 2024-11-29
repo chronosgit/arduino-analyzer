@@ -1,22 +1,21 @@
 <script setup lang="ts">
 	import TemperatureFilters from '~/components/features/temperature/Filters.vue';
-	import { IconSettings } from '~/components/ui/icons';
 	import TemperatureLineChart from './LineChart.vue';
 	import TemperaturePieChart from './PieChart.vue';
+	import DataOptions from '../DataOptions.vue';
 	import { useTemperatureStore } from '~/store/useTemperatureStore';
 
 	const temperatureStore = useTemperatureStore();
 
 	const { fetchTemperatureFromDb } = useTemperature();
-	usePeriodicFunction(fetchTemperatureFromDb, 3000);
 
-	// Temperature filters clickaway
-	const {
-		val: isTemperatureFiltersVisible,
-		activate: openTemperatureFiltersVisible,
-		disactivate: closeTemperatureFiltersVisible,
-	} = useToggle();
-	useClickawayClient('filters.temperature', closeTemperatureFiltersVisible);
+	// Turn on/off periodic fetch of temperature
+	const isTemperatureFetchFromDbOn = ref(true);
+	usePeriodicFunction(() => {
+		if (!isTemperatureFetchFromDbOn.value) return;
+
+		fetchTemperatureFromDb();
+	}, 3000);
 </script>
 
 <template>
@@ -26,19 +25,15 @@
 				{{ $t('pages./.temperature.title') }}
 			</h2>
 
-			<ClientOnly>
-				<IconSettings
-					class="hover:text-indigo-500 transition-colors scale-125 cursor-pointer dark:text-white"
-					@click="openTemperatureFiltersVisible"
-				/>
-
-				<TemperatureFilters
-					v-if="isTemperatureFiltersVisible"
-					ref="filters.temperature"
-					class="shadow-md z-50 absolute right-0 top-0 translate-y-8"
-					@on-filter-apply="fetchTemperatureFromDb"
-				/>
-			</ClientOnly>
+			<DataOptions
+				:is-fetching-from-db-on="isTemperatureFetchFromDbOn"
+				@pause="() => (isTemperatureFetchFromDbOn = false)"
+				@resume="() => (isTemperatureFetchFromDbOn = true)"
+			>
+				<template #filters>
+					<TemperatureFilters @on-filter-apply="fetchTemperatureFromDb" />
+				</template>
+			</DataOptions>
 		</div>
 
 		<TemperatureLineChart />
@@ -51,18 +46,14 @@
 			{{ $t('pages./.temperature.no-data') }}
 		</p>
 
-		<ClientOnly>
-			<IconSettings
-				class="hover:text-indigo-400 transition-colors scale-125 cursor-pointer dark:text-white"
-				@click="openTemperatureFiltersVisible"
-			/>
-
-			<TemperatureFilters
-				v-if="isTemperatureFiltersVisible"
-				ref="filters.temperature"
-				class="shadow-md z-50 absolute right-0 top-0 translate-y-8"
-				@on-filter-apply="fetchTemperatureFromDb"
-			/>
-		</ClientOnly>
+		<DataOptions
+			:is-fetching-from-db-on="isTemperatureFetchFromDbOn"
+			@pause="() => (isTemperatureFetchFromDbOn = false)"
+			@resume="() => (isTemperatureFetchFromDbOn = true)"
+		>
+			<template #filters>
+				<TemperatureFilters @on-filter-apply="fetchTemperatureFromDb" />
+			</template>
+		</DataOptions>
 	</div>
 </template>
