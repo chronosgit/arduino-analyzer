@@ -9,8 +9,8 @@
 	const onFilterChange = (e: Event) => {
 		const target = getEventTarget(e, 'target');
 
-		const type = target.dataset['type'] as 'offset' | 'limit';
-		if (!type || !['offset', 'limit'].includes(type)) return;
+		const type = target.dataset['type'] as 'offset' | 'limit' | 'analytics';
+		if (!type || !['offset', 'limit', 'analytics'].includes(type)) return;
 
 		switch (type) {
 			case 'limit':
@@ -20,6 +20,13 @@
 				break;
 			case 'offset':
 				temperatureStore.onFilterOffsetChange(e);
+
+				emit('on-filter-apply');
+				break;
+			case 'analytics':
+				temperatureStore.updateAnalyticsSampleSize(
+					parseInt(getEventTargetValue(target)),
+				);
 
 				emit('on-filter-apply');
 				break;
@@ -39,7 +46,7 @@
 		<!-- Pagination -->
 		<!-- Offset -->
 		<div class="flex justify-between items-center gap-1">
-			<p>{{ $t('comps.features.gas.filters.offset', 'Offset:') }}:</p>
+			<p>{{ $t('comps.features.temperature.filters.offset', 'Offset') }}:</p>
 
 			<label for="input-offset" class="sr-only">Skip n values as offset</label>
 			<!-- eslint-disable-next-line vue/html-self-closing -->
@@ -58,7 +65,7 @@
 
 		<!-- Limit -->
 		<div class="flex justify-between items-center gap-1">
-			<p>{{ $t('comps.features.gas.filters.limit', 'Limit:') }}:</p>
+			<p>{{ $t('comps.features.temperature.filters.limit', 'Limit') }}:</p>
 
 			<label for="input-limit" class="sr-only">Set limit</label>
 			<!-- eslint-disable-next-line vue/html-self-closing -->
@@ -69,6 +76,28 @@
 				:value="temperatureStore.filterLimit"
 				type="number"
 				:placeholder="temperatureStore.defaultLimit.toString()"
+				class="px-1 text-black"
+				min="1"
+				@change="onFilterChange($event)"
+			/>
+		</div>
+
+		<!-- Analytics sample size -->
+		<div class="flex justify-between items-center gap-1">
+			<p>
+				{{ $t('comps.features.temperature.filters.analytics', 'Analytics') }}:
+			</p>
+
+			<label for="input-analytics" class="sr-only"
+				>Set analytics sample size</label
+			>
+			<!-- eslint-disable-next-line vue/html-self-closing -->
+			<input
+				id="input-analytics"
+				name="analytics"
+				data-type="analytics"
+				:value="temperatureStore.analyticsSampleSize"
+				type="number"
 				class="px-1 text-black"
 				min="1"
 				@change="onFilterChange($event)"

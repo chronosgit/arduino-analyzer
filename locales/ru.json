@@ -75,11 +75,15 @@
 				}
 			},
 			"temperature": {
+				"analytics": {
+					"label": "Средняя температура"
+				},
 				"filters": {
 					"by-type": "По типу",
 					"type-option-disabled": "Тип газа",
 					"offset": "Пропустить",
-					"limit": "Лимит"
+					"limit": "Лимит",
+					"analytics": "Размер выборки для аналитики"
 				}
 			}
 		}

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import Analytics from '~/components/features/temperature/Analytics.vue';
 	import TemperatureFilters from '~/components/features/temperature/Filters.vue';
 	import TemperatureLineChart from './LineChart.vue';
 	import TemperaturePieChart from './PieChart.vue';
@@ -8,6 +9,9 @@
 	const temperatureStore = useTemperatureStore();
 
 	const { fetchTemperatureFromDb } = useTemperature();
+
+	const { analytics, fetchAnalytics } = useTemperatureAnalytics();
+	usePeriodicFunction(fetchAnalytics, 1000);
 
 	// Turn on/off periodic fetch of temperature
 	const isTemperatureFetchFromDbOn = ref(true);
@@ -47,6 +51,19 @@
 		<TemperatureLineChart />
 
 		<TemperaturePieChart />
+
+		<div class="flex justify-center items-center gap-10">
+			<Analytics
+				v-if="analytics"
+				:mean-temperature="analytics.averageTemperatureInCelcius"
+				:sample-size="temperatureStore.analyticsSampleSize"
+				class="flex-1"
+			/>
+
+			<p class="dark:text-white text-4xl font-bold flex-1">
+				Mock placeholder for weather integration
+			</p>
+		</div>
 	</section>
 
 	<div v-else class="relative flex gap-1 items-center justify-between">

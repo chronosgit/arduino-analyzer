@@ -17,6 +17,15 @@ class TemperatureService {
 		});
 	}
 
+	static async getTemperatureAnalytics(lastRecordsToAnalyze = 50) {
+		return $fetch<IServerApiResponse<{ averageTemperatureInCelcius: number }>>(
+			'/api/temperature/analytics',
+			{
+				params: { lastRecordsToAnalyze: lastRecordsToAnalyze },
+			},
+		);
+	}
+
 	static async postEspTemperatureRecordToDb() {
 		return $fetch<IServerApiResponse<ITemperature>>('/api/esp/temperature', {
 			method: 'POST',

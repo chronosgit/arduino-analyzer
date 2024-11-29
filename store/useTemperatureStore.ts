@@ -20,6 +20,8 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 	const filterOffset = ref(defaultOffset);
 	const filterLimit = ref(defaultLimit);
 
+	const analyticsSampleSize = ref(50);
+
 	const toggleFilterByType = (toggledFilterName: TTemperatureType) => {
 		const toggledFilter = filterByType.value.find(
 			(f) => f.name === toggledFilterName,
@@ -45,6 +47,14 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 		if (Number.isNaN(newLimit) || newLimit < 0) return;
 
 		filterLimit.value = newLimit;
+	};
+
+	const updateAnalyticsSampleSize = (newSize: number) => {
+		if (typeof newSize !== 'number' || Number.isNaN(newSize) || newSize <= 0) {
+			return;
+		}
+
+		analyticsSampleSize.value = newSize;
 	};
 
 	const addTemperature = (temp: ITemperature[]) => {
@@ -89,6 +99,8 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 		defaultLimit,
 		defaultOffset,
 
+		analyticsSampleSize,
+
 		filterByType,
 		filterLimit,
 		filterOffset,
@@ -96,6 +108,8 @@ export const useTemperatureStore = defineStore('temperatureStore', () => {
 		toggleFilterByType,
 		onFilterOffsetChange,
 		onFilterLimitChange,
+
+		updateAnalyticsSampleSize,
 
 		addTemperature,
 		clearTemperature,

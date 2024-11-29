@@ -75,11 +75,15 @@
 				}
 			},
 			"temperature": {
+				"analytics": {
+					"label": "Average temperature"
+				},
 				"filters": {
 					"by-type": "By type",
 					"type-option-disabled": "Gas type",
 					"offset": "Gas offset",
-					"limit": "Gas limit"
+					"limit": "Gas limit",
+					"analytics": "Analytics sample size"
 				}
 			}
 		}
