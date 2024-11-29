@@ -14,3 +14,4 @@ export { default as IconFilter } from './Filter.vue';
 export { default as IconSettings } from './Settings.vue';
 export { default as IconResume } from './Resume.vue';
 export { default as IconPause } from './Pause.vue';
+export { default as IconSave } from './Save.vue';

@@ -16,16 +16,20 @@
 
 		fetchGasFromDb();
 	}, 3000);
+
+	const sectionRef = useTemplateRef<HTMLElement>('section');
+	const graphTemplateRefs = computed(() => [sectionRef]);
 </script>
 
 <template>
-	<section v-if="gasStore.gas.length" class="space-y-10">
+	<section v-if="gasStore.gas.length" ref="section" class="space-y-10">
 		<div class="relative flex justify-between items-center gap-1">
 			<h2 class="text-center font-bold text-2xl dark:text-white">
 				{{ $t('pages./.gas.title') }}
 			</h2>
 
 			<DataOptions
+				:saveable-element-template-refs="graphTemplateRefs"
 				:is-fetching-from-db-on="isGasFetchFromDbOn"
 				@pause="() => (isGasFetchFromDbOn = false)"
 				@resume="() => (isGasFetchFromDbOn = true)"
@@ -47,6 +51,7 @@
 		</p>
 
 		<DataOptions
+			:saveable-element-template-refs="graphTemplateRefs"
 			:is-fetching-from-db-on="isGasFetchFromDbOn"
 			@pause="() => (isGasFetchFromDbOn = false)"
 			@resume="() => (isGasFetchFromDbOn = true)"
