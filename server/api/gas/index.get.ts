@@ -25,12 +25,16 @@ export default defineEventHandler(async (e) => {
 			);
 		}
 
-		const gas = await GasModel.find({
-			type: { $in: gasTypes },
-		})
-			.sort({ timestamp: -1 })
-			.skip(offset)
-			.limit(limit);
+		const gas = (
+			await Promise.all(
+				gasTypes.map(async (type) => {
+					return GasModel.find({ type })
+						.sort({ timestamp: -1 })
+						.skip(offset)
+						.limit(limit);
+				}),
+			)
+		).flat();
 
 		let numOfModerateGas = 0;
 		let numOfDangerGas = 0;
