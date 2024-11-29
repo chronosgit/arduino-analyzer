@@ -57,7 +57,7 @@
 				:value="gasStore.filterOffset"
 				type="number"
 				:placeholder="gasStore.defaultOffset.toString()"
-				class="px-1"
+				class="px-1 text-black"
 				min="0"
 				@change="onFilterChange($event)"
 			>
@@ -75,7 +75,7 @@
 				:value="gasStore.filterLimit"
 				type="number"
 				:placeholder="gasStore.defaultLimit.toString()"
-				class="px-1"
+				class="px-1 text-black"
 				min="1"
 				@change="onFilterChange($event)"
 			>
