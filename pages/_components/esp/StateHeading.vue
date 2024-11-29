@@ -3,7 +3,9 @@
 
 	const { t } = useI18n();
 
-	const isEspAlive = inject<Ref<boolean | null>>('isEspAlive', ref(null));
+	const { isEspAlive } = useEsp();
+	useEspGas();
+	useEspTemperature();
 
 	const headingMsg = computed(() => {
 		switch (isEspAlive.value) {
