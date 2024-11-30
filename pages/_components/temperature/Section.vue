@@ -50,14 +50,16 @@
 
 		<TemperatureLineChart />
 
-		<TemperaturePieChart />
+		<div class="flex justify-between items-center gap-1">
+			<TemperaturePieChart />
 
-		<Analytics
-			v-if="analytics"
-			:mean-temperature="analytics.averageTemperatureInCelcius"
-			:sample-size="temperatureStore.analyticsSampleSize"
-			class="flex-1"
-		/>
+			<Analytics
+				v-if="analytics"
+				:mean-temperature="analytics.averageTemperatureInCelcius"
+				:sample-size="temperatureStore.analyticsSampleSize"
+				class="flex-1"
+			/>
+		</div>
 	</section>
 
 	<div v-else class="relative flex gap-1 items-center justify-between">
