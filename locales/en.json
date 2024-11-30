@@ -76,7 +76,8 @@
 			},
 			"temperature": {
 				"analytics": {
-					"label": "Average temperature"
+					"label": "Average temperature for last {cnt} measurements",
+					"label-default": "Averate temperature"
 				},
 				"filters": {
 					"by-type": "By type",

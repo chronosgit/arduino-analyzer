@@ -52,18 +52,12 @@
 
 		<TemperaturePieChart />
 
-		<div class="flex justify-center items-center gap-10">
-			<Analytics
-				v-if="analytics"
-				:mean-temperature="analytics.averageTemperatureInCelcius"
-				:sample-size="temperatureStore.analyticsSampleSize"
-				class="flex-1"
-			/>
-
-			<p class="dark:text-white text-4xl font-bold flex-1">
-				Mock placeholder for weather integration
-			</p>
-		</div>
+		<Analytics
+			v-if="analytics"
+			:mean-temperature="analytics.averageTemperatureInCelcius"
+			:sample-size="temperatureStore.analyticsSampleSize"
+			class="flex-1"
+		/>
 	</section>
 
 	<div v-else class="relative flex gap-1 items-center justify-between">
