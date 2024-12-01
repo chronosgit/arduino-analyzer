@@ -4,7 +4,6 @@ import GasService from '~/services/GasService';
 import type IGas from '~/interfaces/features/gas/IGas';
 
 export default function () {
-	const curSessionStore = useCurSessionStore();
 	const gasStore = useGasStore();
 
 	const {

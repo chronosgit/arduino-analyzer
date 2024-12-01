@@ -1,4 +1,5 @@
 import type IGas from '~/interfaces/features/gas/IGas';
+import type IGasGroupedByType from '~/interfaces/features/gas/IGasGroupedByType';
 import type { TGasType } from '~/interfaces/features/gas/TGasType';
 import type ISelectOption from '~/interfaces/ISelectOption';
 
@@ -6,6 +7,8 @@ export const useGasStore = defineStore('gasStore', () => {
 	const gas = ref<IGas[]>([]);
 	const numOfDangerMeasurements = ref(0);
 	const numOfModerateMeasurements = ref(0);
+
+	const gasPredictions = ref<IGasGroupedByType[]>([]);
 
 	const defaultFilterByType = constants['gasTypes'].map<
 		ISelectOption<TGasType>
@@ -16,6 +19,12 @@ export const useGasStore = defineStore('gasStore', () => {
 	const filterByType = ref<ISelectOption<TGasType>[]>(defaultFilterByType);
 	const filterOffset = ref(defaultOffset);
 	const filterLimit = ref(defaultLimit);
+
+	const updateGasPredictions = (newGasArrayByType: IGasGroupedByType[]) => {
+		if (!Array.isArray(newGasArrayByType)) return;
+
+		gasPredictions.value = newGasArrayByType;
+	};
 
 	const toggleFilterByType = (toggledFilterName: TGasType) => {
 		const toggledFilter = filterByType.value.find(
@@ -74,6 +83,8 @@ export const useGasStore = defineStore('gasStore', () => {
 		numOfDangerMeasurements,
 		numOfModerateMeasurements,
 
+		gasPredictions,
+
 		defaultFilterByType,
 		defaultOffset,
 		defaultLimit,
@@ -81,6 +92,8 @@ export const useGasStore = defineStore('gasStore', () => {
 		filterByType,
 		filterOffset,
 		filterLimit,
+
+		updateGasPredictions,
 
 		toggleFilterByType,
 		onFilterOffsetChange,

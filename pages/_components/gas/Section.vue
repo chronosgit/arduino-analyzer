@@ -2,6 +2,7 @@
 	import GasFilters from '~/components/features/gas/Filters.vue';
 	import GasLineChart from './LineChart.vue';
 	import GasPieChart from './PieChart.vue';
+	import GasPredictionLineChart from './PredictionLineChart.vue';
 	import DataOptions from '../DataOptions.vue';
 	import { useGasStore } from '~/store/useGasStore';
 
@@ -41,6 +42,10 @@
 		</div>
 
 		<GasLineChart />
+
+		<div class="">
+			<GasPredictionLineChart />
+		</div>
 
 		<GasPieChart />
 	</section>
