@@ -1,5 +1,5 @@
+import type IBaseGasGroupedByType from '~/interfaces/features/gas/IBaseGasGroupedByType';
 import type IGas from '~/interfaces/features/gas/IGas';
-import type IGasGroupedByType from '~/interfaces/features/gas/IGasGroupedByType';
 import type { TGasType } from '~/interfaces/features/gas/TGasType';
 import type ISelectOption from '~/interfaces/ISelectOption';
 
@@ -8,7 +8,7 @@ export const useGasStore = defineStore('gasStore', () => {
 	const numOfDangerMeasurements = ref(0);
 	const numOfModerateMeasurements = ref(0);
 
-	const gasPredictions = ref<IGasGroupedByType[]>([]);
+	const gasPredictions = ref<IBaseGasGroupedByType[]>([]);
 
 	const defaultFilterByType = constants['gasTypes'].map<
 		ISelectOption<TGasType>
@@ -20,7 +20,7 @@ export const useGasStore = defineStore('gasStore', () => {
 	const filterOffset = ref(defaultOffset);
 	const filterLimit = ref(defaultLimit);
 
-	const updateGasPredictions = (newGasArrayByType: IGasGroupedByType[]) => {
+	const updateGasPredictions = (newGasArrayByType: IBaseGasGroupedByType[]) => {
 		if (!Array.isArray(newGasArrayByType)) return;
 
 		gasPredictions.value = newGasArrayByType;

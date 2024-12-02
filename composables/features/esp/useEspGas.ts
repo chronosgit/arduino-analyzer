@@ -14,6 +14,8 @@ export default function () {
 		'features.esp.useGas',
 		async () => {
 			try {
+				if (!curSessionStore.espIpAddress) return null;
+
 				const res = await GasService.postEspGasRecordToDb();
 
 				if (res == null) return null;

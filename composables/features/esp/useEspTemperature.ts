@@ -14,6 +14,8 @@ export default function () {
 		'features.esp.useTemperature',
 		async () => {
 			try {
+				if (!curSessionStore.espIpAddress) return null;
+
 				const res = await TemperatureService.postEspTemperatureRecordToDb();
 
 				return res?.data;
