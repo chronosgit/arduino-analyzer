@@ -1,4 +1,3 @@
-import { useCurSessionStore } from '~/store/useCurSessionStore';
 import { useGasStore } from '~/store/useGasStore';
 import GasService from '~/services/GasService';
 import type IGas from '~/interfaces/features/gas/IGas';

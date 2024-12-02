@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import { LineChart } from 'vue-chart-3';
+	import type IBaseGasGroupedByType from '~/interfaces/features/gas/IBaseGasGroupedByType';
 	import type IGasGroupedByType from '~/interfaces/features/gas/IGasGroupedByType';
 	import type { TGasType } from '~/interfaces/features/gas/TGasType';
 	import { useGasStore } from '~/store/useGasStore';
@@ -23,17 +24,20 @@
 			co: [],
 			lpg: [],
 		};
+
 		gasStore.gas.forEach((gas) => {
 			groupedByType[gas.type].push({
 				value: gas.value,
 				timestamp: new Date(gas.timestamp),
 			});
 		});
+
 		const typeWithMostValues = Object.keys(groupedByType).reduce((a, b) =>
 			groupedByType[a as TGasType].length > groupedByType[b as TGasType].length
 				? a
 				: b,
 		) as TGasType;
+
 		const labels = groupedByType[typeWithMostValues].map(({ timestamp }) =>
 			formatTimestamp(timestamp),
 		);
@@ -59,12 +63,14 @@
 	const getGasPredictions = (
 		data: Record<TGasType, { value: number; timestamp: Date }[]>,
 	) => {
-		const groupedGas: IGasGroupedByType[] = Object.entries(data).map((gg) => ({
-			type: gg[0] as TGasType,
-			values: gg[1],
-		}));
+		const groupedGas: IGasGroupedByType[] = Object.entries(data)
+			.map((gg) => ({
+				type: gg[0] as TGasType,
+				values: gg[1],
+			}))
+			.filter((gg) => gg.values.length);
 
-		const gasPredictions: IGasGroupedByType[] = groupedGas.map((group) => {
+		const gasPredictions: IBaseGasGroupedByType[] = groupedGas.map((group) => {
 			const values = group.values.map((v) => v.value);
 
 			const predictions = generateLinearRegressionPredictions(values);
@@ -74,8 +80,6 @@
 				values: predictions,
 			};
 		});
-
-		console.log(gasPredictions);
 
 		return gasPredictions;
 	};

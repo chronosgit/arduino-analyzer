@@ -1,10 +1,27 @@
-export default defineEventHandler(async () => {
+import type IBaseEspResponse from '~/server/interfaces/features/esp/IBaseEspResponse';
+
+export default defineEventHandler(async (e) => {
 	try {
-		const mockStates = [true, false, null];
+		const { espIpAddress } = getQuery(e);
 
-		const randomMockState = mockStates[Math.floor(Math.random() * 2)];
+		if (espIpAddress == null) {
+			throw createError({
+				statusCode: 400,
+				message: 'Invalid ESP IP address',
+			});
+		}
 
-		return getSuccessResponse(200, 'Arduino is alive', randomMockState);
+		const res = await $fetch<IBaseEspResponse<string> | null>(
+			`http://${espIpAddress}/api/v1/healthcheck`,
+		);
+		if (res == null) {
+			throw createError({
+				statusCode: 404,
+				message: 'Received no response from ESP',
+			});
+		}
+
+		return getSuccessResponse(200, 'Received ESP state', res);
 	} catch (err) {
 		console.error(err);
 

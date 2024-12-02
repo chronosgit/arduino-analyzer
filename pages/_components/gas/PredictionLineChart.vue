@@ -8,25 +8,18 @@
 	const gasStore = useGasStore();
 
 	const data = computed(() => {
-		// Instead of 'most values' bs
-		// we need to take the type with the best timestamps
-		const typeWithMostValues = 'methane';
-		const groupedGasWithMostValues = gasStore.gasPredictions.find(
-			(g) => g.type === typeWithMostValues,
-		);
-		if (groupedGasWithMostValues == null) return [];
-		const labels = groupedGasWithMostValues.values.map(({ timestamp }) =>
-			formatTimestamp(timestamp),
+		if (!gasStore.gasPredictions.length) return [];
+
+		const labels = gasStore.gasPredictions[0].values.map(
+			(_, index) => index + 1,
 		);
 
 		const datasets = gasStore.gasPredictions.map(({ type, values }) => ({
 			label: t(`dictionary.${type}`, type.toUpperCase()),
-			data: values.map((item) => item.value),
+			data: values,
 			tension: 0.1,
 			borderColor: getBorderColor(type as TGasType),
-			pointBackgroundColor: values.map((item) =>
-				item.value > 600 ? 'red' : 'lime',
-			),
+			pointBackgroundColor: values.map((v) => (v > 600 ? 'red' : 'lime')),
 		}));
 
 		return {

@@ -14,9 +14,14 @@ export default function () {
 		'features.esp.useEsp',
 		async () => {
 			try {
-				const res = await EspService.checkEspState();
+				if (!curSessionStore.espIpAddress) return null;
 
-				return res?.data;
+				const res = await EspService.checkEspState(
+					curSessionStore.espIpAddress,
+				);
+				if (res == null) return null;
+
+				return res.data.status;
 			} catch (err) {
 				console.error(err);
 
