@@ -10,6 +10,7 @@
 	const addToast = inject<FAddToast>('addToast', () => {});
 
 	const curSessionStore = useCurSessionStore();
+
 	const input = ref('');
 
 	const connectWithEsp = () => {

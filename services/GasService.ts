@@ -1,3 +1,4 @@
+import type IEspServerBaseResponse from '~/interfaces/features/esp/IEspServerBaseResponse';
 import type IGas from '~/interfaces/features/gas/IGas';
 import type { TGasType } from '~/interfaces/features/gas/TGasType';
 import type IServerApiResponse from '~/interfaces/IServerApiResponse';
@@ -27,9 +28,22 @@ class GasService {
 		});
 	}
 
-	static async postEspGasRecordToDb() {
-		return $fetch<IServerApiResponse<number>>('/api/esp/gas', {
+	static async postEspGasRecordToDb(espIpAddress: string) {
+		if (!espIpAddress) throw createError('Invalid espIpAddress');
+
+		return $fetch<
+			IServerApiResponse<{
+				butane?: number | null;
+				co?: number | null;
+				ethanol?: number | null;
+				hydrogen?: number | null;
+				lpg?: number | null;
+				methane?: number | null;
+				smoke?: number | null;
+			}>
+		>('/api/esp/gas', {
 			method: 'POST',
+			body: { espIpAddress },
 		});
 	}
 

@@ -21,7 +21,7 @@ export default function () {
 				);
 				if (res == null) return null;
 
-				return res.data.status;
+				return res.data?.status ?? null;
 			} catch (err) {
 				console.error(err);
 

@@ -16,13 +16,12 @@ export default function () {
 			try {
 				if (!curSessionStore.espIpAddress) return null;
 
-				const res = await GasService.postEspGasRecordToDb();
-
+				const res = await GasService.postEspGasRecordToDb(
+					curSessionStore.espIpAddress,
+				);
 				if (res == null) return null;
 
-				const { data: gasRecord } = res;
-
-				return gasRecord;
+				return res;
 			} catch (err) {
 				console.error(err);
 

@@ -103,12 +103,6 @@ void handleApiV1GetHealthCheck() {
 void handleApiV1GetGasReadings() {
   GasReadings mqData = readMQData();
 
-  if (mqData.lpg < 0 || mqData.methane < 0 || mqData.smoke < 0 || mqData.hydrogen < 0 || 
-      mqData.ethanol < 0 || mqData.butane < 0 || mqData.co < 0) {
-    server.send(500, "application/json", "{\"error\":\"Invalid gas sensor readings\"}");
-    return;
-  }
-
   String response = "{";
   response += "\"lpg\": " + String(mqData.lpg, 2) + ",";
   response += "\"methane\": " + String(mqData.methane, 2) + ",";
@@ -124,12 +118,6 @@ void handleApiV1GetGasReadings() {
 
 void handleApiV1GetTemperatureReadings() {
   TemperatureHumidityData dhtData = readDHTData();
-
-  if (!dhtData.isCelsius || dhtData.temperature < -40 || dhtData.temperature > 80 || 
-      dhtData.humidity < 0 || dhtData.humidity > 100) {
-    server.send(500, "application/json", "{\"error\":\"Invalid temperature or humidity readings\"}");
-    return;
-  }
 
   String response = "{";
   response += "\"temperature\": " + String(dhtData.temperature, 2) + ",";

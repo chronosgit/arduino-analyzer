@@ -1,11 +1,13 @@
 <script setup lang="ts">
 	import { IconInfo } from '~/components/ui/icons';
+	import useEsp from '~/composables/features/esp/useEsp';
+	import useEspGas from '~/composables/features/esp/useEspGas';
 
 	const { t } = useI18n();
 
 	const { isEspAlive } = useEsp();
 	useEspGas();
-	useEspTemperature();
+	// useEspTemperature();
 
 	const headingMsg = computed(() => {
 		switch (isEspAlive.value) {
