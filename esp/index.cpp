@@ -27,7 +27,6 @@ struct TemperatureHumidityData {
   float temperature; 
   float humidity; 
 };
-
 struct GasReadings {
   float lpg;
   float methane;
@@ -41,12 +40,12 @@ struct GasReadings {
 void setupDHT();
 void setupMQ();
 void calibrateMQ();
-
 void scanWifi();
 void connectToWiFi(const char* ssid, const char* password);
 String getIpAddress();
-void handleApiV1();
-
+void handleApiV1GetHealthCheck();
+void handleApiV1GetGasReadings();
+void handleApiV1GetTemperatureReadings();
 TemperatureHumidityData readDHTData();
 GasReadings readMQData();
 bool isDhtOutputValid(float humidity, float temperature);
@@ -66,7 +65,9 @@ void setup() {
   Serial.println(ipAddress);
 
   server.on("/api/v1/healthcheck", HTTP_GET, handleApiV1GetHealthCheck);
-  
+  server.on("/api/v1/gas", HTTP_GET, handleApiV1GetGasReadings);
+  server.on("/api/v1/temperature", HTTP_GET, handleApiV1GetTemperatureReadings);
+
   server.begin();
 }
 
@@ -99,6 +100,44 @@ void handleApiV1GetHealthCheck() {
   server.send(200, "application/json", response);
 }
 
+void handleApiV1GetGasReadings() {
+  GasReadings mqData = readMQData();
+
+  if (mqData.lpg < 0 || mqData.methane < 0 || mqData.smoke < 0 || mqData.hydrogen < 0 || 
+      mqData.ethanol < 0 || mqData.butane < 0 || mqData.co < 0) {
+    server.send(500, "application/json", "{\"error\":\"Invalid gas sensor readings\"}");
+    return;
+  }
+
+  String response = "{";
+  response += "\"lpg\": " + String(mqData.lpg, 2) + ",";
+  response += "\"methane\": " + String(mqData.methane, 2) + ",";
+  response += "\"smoke\": " + String(mqData.smoke, 2) + ",";
+  response += "\"hydrogen\": " + String(mqData.hydrogen, 2) + ",";
+  response += "\"ethanol\": " + String(mqData.ethanol, 2) + ",";
+  response += "\"butane\": " + String(mqData.butane, 2) + ",";
+  response += "\"co\": " + String(mqData.co, 2);
+  response += "}";
+
+  server.send(200, "application/json", response);
+}
+
+void handleApiV1GetTemperatureReadings() {
+  TemperatureHumidityData dhtData = readDHTData();
+
+  if (!dhtData.isCelsius || dhtData.temperature < -40 || dhtData.temperature > 80 || 
+      dhtData.humidity < 0 || dhtData.humidity > 100) {
+    server.send(500, "application/json", "{\"error\":\"Invalid temperature or humidity readings\"}");
+    return;
+  }
+
+  String response = "{";
+  response += "\"temperature\": " + String(dhtData.temperature, 2) + ",";
+  response += "\"humidity\": " + String(dhtData.humidity, 2);
+  response += "}";
+
+  server.send(200, "application/json", response);
+}
 
 // Sensors
 
