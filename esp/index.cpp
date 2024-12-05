@@ -5,10 +5,10 @@
 
 // Constants
 
-#define BOARD "Arduino UNO"
+#define BOARD "ESP 32"
 #define DHT_PIN 4
 #define DHT_TYPE DHT11
-#define MQ_PIN A0
+#define MQ_PIN 32
 #define MQ_TYPE "MQ-2"
 #define MQ_V_RESOLUTION 5
 #define MQ_ADC_BIT_RESOLUTION 10
@@ -56,8 +56,8 @@ bool isDhtOutputValid(float humidity, float temperature);
 void setup() {
   Serial.begin(9600);
   
-  setupDHT();
-  // setupMQ();
+  // setupDHT();
+  setupMQ();
 
   connectToWiFi("sarbaz", "zhibulya72");
   
@@ -71,8 +71,10 @@ void setup() {
 }
 
 void loop() {
-  TemperatureHumidityData dhtData = readDHTData();
-  // GasReadings mqData = readMQData();
+  // TemperatureHumidityData dhtData = readDHTData();
+  GasReadings mqData = readMQData();
+
+  printGasReadings(mqData);
 
   server.handleClient();
 
