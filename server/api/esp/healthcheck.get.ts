@@ -21,7 +21,7 @@ export default defineEventHandler(async (e) => {
 			});
 		}
 
-		return getSuccessResponse(200, 'Received ESP state', res);
+		return getSuccessResponse(200, 'Received ESP state', res.data);
 	} catch (err) {
 		console.error(err);
 
