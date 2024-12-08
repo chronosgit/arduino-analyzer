@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-export default function (callback: () => any, intervalTime = 500) {
+export default function (callback: () => any, intervalTime = 3000) {
 	const timer = ref<ReturnType<typeof setInterval> | null>(null);
 
 	onMounted(() => {

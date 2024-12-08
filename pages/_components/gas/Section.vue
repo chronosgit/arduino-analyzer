@@ -8,10 +8,12 @@
 
 	const gasStore = useGasStore();
 
-	const { fetchGasFromDb } = useGas();
+	const { fetchGasPredictions } = useGasPredictions();
+	usePeriodicFunction(fetchGasPredictions);
+	// usePeriodicFunction(GasService.triggerGasPredictionsTraining, 3000);
 
-	// Turn on/off periodic fetch of gas
 	const isGasFetchFromDbOn = ref(true);
+	const { fetchGasFromDb } = useGas();
 	usePeriodicFunction(() => {
 		if (!isGasFetchFromDbOn.value) return;
 
@@ -43,9 +45,7 @@
 
 		<GasLineChart />
 
-		<div class="">
-			<GasPredictionLineChart />
-		</div>
+		<GasPredictionLineChart />
 
 		<GasPieChart />
 	</section>

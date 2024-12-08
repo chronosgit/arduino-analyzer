@@ -1,4 +1,3 @@
-import type IEspServerBaseResponse from '~/interfaces/features/esp/IEspServerBaseResponse';
 import type IGas from '~/interfaces/features/gas/IGas';
 import type { TGasType } from '~/interfaces/features/gas/TGasType';
 import type IServerApiResponse from '~/interfaces/IServerApiResponse';
@@ -25,6 +24,19 @@ class GasService {
 		>('/api/gas', {
 			method: 'GET',
 			params: { offset, limit, types: gasTypes },
+		});
+	}
+
+	static async getGasPredictions(gasType: TGasType, size: number) {
+		return $fetch<IServerApiResponse<number[]>>('/api/gas/predictions', {
+			method: 'GET',
+			params: { size, gasType },
+		});
+	}
+
+	static async triggerGasPredictionsTraining() {
+		return $fetch<IServerApiResponse<unknown>>('/api/gas/predictions/train', {
+			method: 'PUT',
 		});
 	}
 
