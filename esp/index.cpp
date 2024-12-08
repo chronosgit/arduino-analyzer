@@ -73,16 +73,14 @@ void setup() {
 
 void loop() {
   // TemperatureHumidityData dhtData = readDHTData();
-  GasReadings mqData = readMQData();
-
-  printGasReadings(mqData);
+  // GasReadings mqData = readMQData();
+  // printTemperatureHumidityData(dhtData);
+  // printGasReadings(mqData);
+  // scanWifi(); 
 
   server.handleClient();
 
   delay(1000);
-
-  // scanWifi(); 
-  // printTemperatureHumidityData(dhtData);
 }
 
 // API
@@ -104,6 +102,9 @@ void handleApiV1GetGasReadings() {
   GasReadings mqData = readMQData();
 
   String response = "{";
+  response += "\"status\": true,";
+  response += "\"message\": \"Gas readings retrieved successfully\",";
+  response += "\"data\": {";
   response += "\"lpg\": " + String(mqData.lpg, 2) + ",";
   response += "\"methane\": " + String(mqData.methane, 2) + ",";
   response += "\"smoke\": " + String(mqData.smoke, 2) + ",";
@@ -112,6 +113,7 @@ void handleApiV1GetGasReadings() {
   response += "\"butane\": " + String(mqData.butane, 2) + ",";
   response += "\"co\": " + String(mqData.co, 2);
   response += "}";
+  response += "}";
 
   server.send(200, "application/json", response);
 }
@@ -119,9 +121,14 @@ void handleApiV1GetGasReadings() {
 void handleApiV1GetTemperatureReadings() {
   TemperatureHumidityData dhtData = readDHTData();
 
+  // Construct the JSON response
   String response = "{";
+  response += "\"status\": true,";
+  response += "\"message\": \"Temperature and humidity readings retrieved successfully\",";
+  response += "\"data\": {";
   response += "\"temperature\": " + String(dhtData.temperature, 2) + ",";
   response += "\"humidity\": " + String(dhtData.humidity, 2);
+  response += "}";
   response += "}";
 
   server.send(200, "application/json", response);
