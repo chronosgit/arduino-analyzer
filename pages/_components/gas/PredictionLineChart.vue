@@ -7,6 +7,9 @@
 
 	const gasStore = useGasStore();
 
+	const { fetchGasPredictions } = useGasPredictions();
+	usePeriodicFunction(fetchGasPredictions, 3000);
+
 	const data = computed(() => {
 		if (!gasStore.gasPredictions.length) return [];
 

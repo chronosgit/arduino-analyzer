@@ -21,8 +21,6 @@ export const useGasStore = defineStore('gasStore', () => {
 	const filterLimit = ref(defaultLimit);
 
 	const updateGasPredictions = (newGasArrayByType: IBaseGasGroupedByType[]) => {
-		if (!Array.isArray(newGasArrayByType)) return;
-
 		gasPredictions.value = newGasArrayByType;
 	};
 

@@ -21,7 +21,8 @@ export default function () {
 					selectedGasTypes.map(async (gt) => {
 						const res = await GasService.getGasPredictions(
 							gt,
-							gasStore.filterLimit,
+							// gasStore.filterLimit,
+							100,
 						);
 
 						const predicts = <IBaseGasGroupedByType>{

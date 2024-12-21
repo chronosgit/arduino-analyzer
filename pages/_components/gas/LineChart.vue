@@ -1,7 +1,5 @@
 <script setup lang="ts">
 	import { LineChart } from 'vue-chart-3';
-	import type IBaseGasGroupedByType from '~/interfaces/features/gas/IBaseGasGroupedByType';
-	import type IGasGroupedByType from '~/interfaces/features/gas/IGasGroupedByType';
 	import type { TGasType } from '~/interfaces/features/gas/TGasType';
 	import { useGasStore } from '~/store/useGasStore';
 
@@ -52,37 +50,11 @@
 			),
 		}));
 
-		gasStore.updateGasPredictions(getGasPredictions(groupedByType));
-
 		return {
 			labels,
 			datasets,
 		};
 	});
-
-	const getGasPredictions = (
-		data: Record<TGasType, { value: number; timestamp: Date }[]>,
-	) => {
-		const groupedGas: IGasGroupedByType[] = Object.entries(data)
-			.map((gg) => ({
-				type: gg[0] as TGasType,
-				values: gg[1],
-			}))
-			.filter((gg) => gg.values.length);
-
-		const gasPredictions: IBaseGasGroupedByType[] = groupedGas.map((group) => {
-			const values = group.values.map((v) => v.value);
-
-			const predictions = generateLinearRegressionPredictions(values);
-
-			return {
-				type: group.type,
-				values: predictions,
-			};
-		});
-
-		return gasPredictions;
-	};
 
 	const getBorderColor = (type: TGasType) => {
 		const colors: Record<TGasType, string> = {

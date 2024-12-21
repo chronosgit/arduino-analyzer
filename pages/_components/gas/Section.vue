@@ -8,10 +8,6 @@
 
 	const gasStore = useGasStore();
 
-	const { fetchGasPredictions } = useGasPredictions();
-	usePeriodicFunction(fetchGasPredictions);
-	// usePeriodicFunction(GasService.triggerGasPredictionsTraining, 3000);
-
 	const isGasFetchFromDbOn = ref(true);
 	const { fetchGasFromDb } = useGas();
 	usePeriodicFunction(() => {
