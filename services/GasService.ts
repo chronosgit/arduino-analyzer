@@ -34,12 +34,6 @@ class GasService {
 		});
 	}
 
-	static async triggerGasPredictionsTraining() {
-		return $fetch<IServerApiResponse<unknown>>('/api/gas/predictions/train', {
-			method: 'PUT',
-		});
-	}
-
 	static async postEspGasRecordToDb(espIpAddress: string) {
 		if (!espIpAddress) throw createError('Invalid espIpAddress');
 
